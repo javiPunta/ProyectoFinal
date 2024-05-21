@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
+//Paleta de colores
+$azul: #2C74CE;
+$lila: #5555ffff;
+$blanco:#fff;
+$negro: #000000;
+$negro-claro: #222;
+$gris: #333;
+$gris-claro:#ccc;
+
+.cuerpo-form {
+    background-color: $negro;
+    color: $blanco;
+    background-size: 100% 100%;
+    height: 100vh;
+    background-attachment: scroll;
+    overflow: hidden;
+}
+
+.contact-wrapper {
+    border-radius: 10px;
+    width: 50%;
+    box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.3);
+    margin: 10% auto 0;
+    background-color: $azul;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+        background-image: linear-gradient(to right, #29c792, $azul, #0037ff, $lila);
+        background-size: 600% 600%;
+        animation: gradient 10s ease infinite;
+    }
+
+    > * {
+        padding: 0.3em;
+    }
+
+    .contact-form {
+        background-color: $negro-claro;
+        padding: 2em;
+
+        form {
+            label, input {
+                margin: 0;
+                padding: 0.2em;
+            }
+
+            input, textarea {
+                width: 100%;
+                padding: 0.7em;
+                border: none;
+                background: none;
+                border-bottom: 1px solid $azul;
+                color: $blanco;
+
+                &:focus {
+                    outline: none;
+                    border-bottom-color: $lila; // Cambio de color al hacer foco
+                }
+            }
+        }
+    }
+
+    button, .inpt-btn {
+        background-color: transparent;
+        padding: 1em;
+        color: $blanco;
+        margin-right: 1em !important;
+        border-radius: 10px !important;
+        padding: 0.5em 1em;
+        border: 2px solid $azul;
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease-out;
+        outline: 0;
+        &:hover {
+            border-color: $azul;
+            color: $azul;
+            transform: translateY(-3px); /* Efecto de levantamiento al pasar el cursor */
+        }
+    }
+    #espacio {
+        display: flex;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.2em;
+        padding: 0.5em 1em;
+        background-color: transparent;
+        color: $blanco;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        transition: border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    
+        &:hover {
+            border-color: $lila;
+            color: $azul;
+        }
+    }
+
+    #espacioB {
+        display: flex;
+        justify-content: space-between;
+    }
+
+   
+}
+
+.gradient-container {
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        background-image: linear-gradient(to right, #29c792, $azul, #0037ff, $lila);
+        background-size: 600% 600%;
+        animation: gradient 10s ease infinite;
+        transition: opacity 0.2s ease-in-out;
+        opacity: 0;
+        border-radius: 10px;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+#espacio {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1.2em;
+    padding: 0.5em 1em;
+    background-color: transparent;
+    color: $blanco;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease-in-out;
+
+    &:hover {
+        border-color: $azul;
+        color: $azul;
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 $lila;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 $lila;
+    }
+}

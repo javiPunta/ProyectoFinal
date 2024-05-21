@@ -1,0 +1,26 @@
+<div class="body1">
+  <div class="dropdown">
+    <button class="dropbtn">
+      Usuario: <span style="text-transform: uppercase;">{{ session }}</span>
+    </button>
+    <div class="dropdown-content">
+      <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
+      <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
+    </div>
+  </div>
+  <h2>Consulta Encuesta</h2>
+  <div class="form">
+    <h2>Tienda:</h2>
+    <div class="resultados">
+      <h2>Resultados:</h2>
+      <div *ngFor="let pregunta of preguntas" class="pregunta">
+        <p>
+          {{ pregunta.texto }} 
+          Sí ({{ porcentajes[pregunta.clave].si | number:'1.0-2' }}%), 
+          No ({{ porcentajes[pregunta.clave].no | number:'1.0-2' }}%)
+        </p>
+      </div>
+    </div>
+  </div>
+  <button (click)="goHome()" name="boton" value="volver" id="espacio">Volver Atrás</button>
+</div>

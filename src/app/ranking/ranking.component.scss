@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+// Paleta de colores definida
+$color-azul-oscuro: #1a8fdf;
+$color-azul-medio: #326295;
+$color-azul-claro: #21d4fd;
+$color-azul-neon: #b721ff;
+$color-fondo-oscuro: #0d0d0d;
+$color-fondo-claro: #f4f4f4;
+$color-texto: #333;
+$color-texto-claro: #ffffff;
+$color-sombra: rgba(0, 0, 0, 0.1);
+
+// Fuentes
+$fuente-principal: 'Roboto', Arial, sans-serif;
+
+// Estilos generales
+.body1 {
+  font-family: $fuente-principal;
+  color: $color-texto;
+  background-color: $color-fondo-claro;
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container > header {
+  margin: 2em auto;
+  text-align: center;
+}
+
+.container > header h1 {
+  font-weight: 700;
+  font-size: 2.5em;
+  color: $color-azul-medio;
+  margin-bottom: 0.5em;
+  text-shadow: 1px 1px 2px $color-sombra;
+}
+
+.wrapper {
+  line-height: 1.6;
+  margin: 0 auto;
+  padding: 2em;
+  background: $color-fondo-claro;
+  box-shadow: 0 10px 20px $color-sombra;
+  border-radius: 8px;
+}
+
+// Estilos de la tabla
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  margin-top: 1em;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background: linear-gradient(135deg, $color-azul-oscuro 0%, $color-azul-medio 100%);
+  font-weight: bold;
+  color: $color-texto-claro;
+  letter-spacing: 0.05em;
+}
+
+td, th {
+  padding: 1em 1.5em;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+tbody tr:hover {
+  background-color: #dfe6e9;
+}
+
+td.rank {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: $color-azul-claro;
+}
+
+// Estilos para el botón 'Volver Atrás'
+.boton-volver {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 2em;
+  left: 2em;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 8px $color-sombra;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: $color-azul-medio;
+
+    .material-icons-outlined {
+      color: $color-texto-claro;
+    }
+  }
+}
+
+.material-icons-outlined {
+  color: $color-azul-medio;
+  font-size: 2em;
+}
+
+// Estilos para la sección de ranking
+.ranking-section {
+  padding: 2em;
+  background-color: $color-fondo-oscuro;
+  color: $color-texto-claro;
+  box-shadow: 0 4px 8px $color-sombra;
+  border-radius: 8px;
+  margin: 2em auto;
+  width: 80%;
+  max-width: 1000px; // Ajusta según la anchura máxima deseada
+
+  h2 {
+    text-align: center;
+    color: $color-azul-neon;
+    margin-bottom: 1em;
+  }
+
+  // Aplicar estilos específicos para la tabla dentro de ranking-section si es necesario
+  .ranking-table {
+    // Tus estilos específicos para la tabla de ranking van aquí
+  }
+}
+
+

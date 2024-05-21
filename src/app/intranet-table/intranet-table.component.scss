@@ -1,0 +1,131 @@
+/* Variables de colores basadas en la imagen */
+$color-background: #2c3e50; // Color de fondo oscuro
+$color-text: #ecf0f1; // Color de texto claro
+$color-hover: #34495e; // Color al pasar el ratón
+$color-active: #16a085; // Color para elementos activos o al hacer clic
+
+/* Estilos para los inputs dentro de la fila de formulario */
+table.dataTable tr.add-user-form td input {
+  padding: 8px; /* Relleno como en las celdas de la tabla */
+  margin: 0; /* Sin margen para alinearse con el estilo de la tabla */
+  border: 1px solid #ccc; /* Borde suave como el de los inputs del formulario */
+  width: 100%; /* Ocupar todo el ancho de la celda */
+}
+
+/* Estilos para el botón dentro de la fila de formulario */
+table.dataTable tr.add-user-form td button {
+  padding: 10px 20px; /* Alineado con el estilo del botón de tu formulario */
+  border: none;
+  background-color: #007bff; /* Color azul para el botón */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.btn.btn-secondary {
+  float: right; // Esto alineará el botón a la derecha
+  margin-right: 15px; // Añade un margen a la derecha si necesitas separación del borde
+  margin-top: 15px; // Añade un margen arriba si necesitas separación de otros elementos o del borde superior
+}
+
+/* Asegúrate de que la fila de formulario tenga el mismo fondo que las otras filas */
+table.dataTable tr.add-user-form {
+  background-color: #f2f2f2;
+}
+
+/* Estilos para la barra lateral */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px; // Ancho de la barra lateral
+  height: 100%;
+  background-color: $color-background;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+  z-index: 1000; // Asegúrate de que esté por encima de otros elementos
+
+  transform: translateX(-100%);
+  &.is-visible {
+    transform: translateX(0);
+  }
+}
+
+/* Estilos para los elementos de navegación */
+.nav-menu {
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      a {
+        display: block;
+        padding: 10px 15px;
+        color: $color-text;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        cursor: pointer; // Add cursor pointer here
+
+        &:hover {
+          background-color: $color-hover;
+        }
+      }
+    }
+  }
+}
+
+/* Estilos para el botón que alterna la barra lateral */
+.toggle-sidebar {
+  position: absolute;
+  top: 20px;
+  right: -50px; // Posiciona el botón fuera de la barra lateral
+  background-color: $color-active;
+  color: $color-text;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+
+  .fa {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background-color: darken($color-active, 10%);
+  }
+}
+
+/* Estilos para el botón de cierre dentro de la barra lateral */
+.close-sidebar {
+  display: block;
+  padding: 10px 15px;
+  color: $color-text;
+  cursor: pointer;
+  text-align: left;
+
+  .fa {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    color: darken($color-text, 10%);
+  }
+}
+
+@media (max-width: 768px) {
+  .btn.btn-secondary {
+    float: none;
+    margin-right: 0;
+    display: block; // O cualquier otro estilo que desees para pantallas pequeñas
+  }
+}

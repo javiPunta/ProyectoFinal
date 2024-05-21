@@ -1,0 +1,62 @@
+// Variables de estilos
+$font-stack: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; // Familia de fuentes
+$primary-color: #0078d4; // Color primario (tono azul)
+$background-color: #f7f7f7; // Color de fondo suave
+$text-color: #333; // Color de texto
+$link-color: #0078d4; // Color de los enlaces
+$button-bg-color: $primary-color; // Color de fondo de los botones
+$button-text-color: #ffffff; // Color de texto de los botones
+
+.bdy {
+  background-color: $background-color; // Color de fondo del contenedor principal
+  color: $text-color; // Color de texto del contenedor principal
+  font-family: $font-stack; // Familia de fuentes
+  padding: 20px; // Relleno interno
+  border-radius: 4px; // Bordes redondeados
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Sombra de caja ligera
+
+  h1, h2 {
+    color: $primary-color; // Color de texto para encabezados
+  }
+
+  p {
+    line-height: 1.6; // Altura de línea para mejorar la legibilidad
+    margin-bottom: 10px; // Espaciado inferior entre párrafos
+  }
+
+  a {
+    color: $link-color; // Color de texto para enlaces
+    text-decoration: none; // Sin subrayado por defecto
+
+    &:hover {
+      text-decoration: underline; // Subrayado en hover
+    }
+  }
+
+  ul {
+    list-style-type: none; // Sin estilo de lista
+    padding-left: 20px; // Relleno a la izquierda para listas
+
+    li {
+      &::before {
+        content: '• '; // Punto de lista personalizado
+        color: $primary-color; // Color del punto de lista
+      }
+    }
+  }
+
+  #espacio {
+    background-color: $button-bg-color; // Color de fondo del botón
+    color: $button-text-color; // Color de texto del botón
+    padding: 10px 15px; // Relleno interno del botón
+    border: none; // Sin borde
+    border-radius: 4px; // Bordes redondeados
+    cursor: pointer; // Cursor de puntero al pasar por el botón
+    transition: background-color 0.3s ease; // Transición suave para el fondo
+
+    &:hover {
+      transform: translateY(-3px); // Efecto de elevación al pasar el cursor
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); // Sombra más pronunciada en hover
+    }
+  }
+}

@@ -1,0 +1,84 @@
+// Definición de colores, fuentes y otros valores reutilizables
+$font-stack: 'Courier New', Courier, monospace;
+$border-color: #000;
+$background-color: #f1eeee; // Un fondo más claro para el ticket
+$outer-background-color-start: #a3b4c6; // Inicio del gradiente para el fondo exterior
+$outer-background-color-end: #191717; // Fin del gradiente para el fondo exterior
+$text-color: #333;
+$highlight-color: #060606; // Color para destacar ciertos textos
+$max-width-ticket: 300px;
+$margin-ticket: 20px;
+$padding-ticket: 10px;
+$border-ticket: 1px dashed $border-color;
+$box-shadow-ticket: 0 2px 5px rgba(0, 0, 0, 0.1); // Sombra para el ticket
+
+.app-background {
+  background: linear-gradient($outer-background-color-start, $outer-background-color-end); // Gradiente para el fondo
+  padding: 20px; // Espacio alrededor del ticket
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; // Asegurar que cubra toda la altura
+}
+
+.ticket-container {
+  font-family: $font-stack;
+  max-width: $max-width-ticket;
+  margin: $margin-ticket;
+  padding: $padding-ticket;
+  border: $border-ticket;
+  background-color: $background-color;
+  color: $text-color;
+  box-shadow: $box-shadow-ticket; // Aplicar sombra
+
+  h1 {
+    margin: 5px 0;
+    font-size: 1.5em;
+    color: $highlight-color;
+  }
+
+  p {
+    margin: 5px 0;
+    font-size: 0.9em;
+
+    &.important {
+      font-weight: bold;
+      color: $highlight-color;
+    }
+  }
+
+  .ticket-items {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 5px;
+        font-size: 0.9em;
+
+        .item-name {
+          font-weight: bold;
+        }
+
+        .item-price {
+          float: right;
+        }
+      }
+    }
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: darken($background-color, 10%);
+    border: none;
+    color: $text-color;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($background-color, 20%);
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<div class="body1">
+  <div class="container">
+    <header>
+      <h1>Snake World Ranking Top 20</h1>
+    </header>
+    <div class="wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Ranking</th>
+            <th>Nombre</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Utiliza *ngFor para iterar sobre cada jugador y mostrar su ranking, nombre y puntos -->
+          <tr *ngFor="let player of players; let i = index">
+            <td class="rank">{{ i + 1 }}</td>
+            <td class="name">{{ player.nombre_user }}</td>
+            <td class="points">{{ player.puntos_total }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Botón para volver a la página principal -->
+    <button (click)="goHome()" class="boton-volver" id="espacio">
+      <span class="material-icons-outlined" style="font-size: 50px;">
+        arrow_back
+      </span>
+    </button> 
+  </div>
+</div>

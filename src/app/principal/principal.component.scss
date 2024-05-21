@@ -1,0 +1,148 @@
+/* colores:
+Azul: encabezado y botones
+lila: para boton cookie
+blanco: para fondo 
+negro:
+*/
+$azul: #2C74CE;
+$lila: #5555ffff;
+$blanco:#fff;
+$negro: #000000;
+/*---  Head ---*/
+
+/*---  Body ---*/
+
+/*---  Cookies ---*/
+.cookie-notification {
+     background-color: $blanco; 
+     border: 1px solid #ccc;
+     padding: 30px;
+     text-align: left;
+     font-size: 16px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /*  sombra suave */
+     margin: 20px auto; 
+     position: fixed; 
+     top: 50%; /* Centra verticalmente en la mitad de la pantalla */
+     left: 50%; /* Centra horizontalmente en la mitad de la pantalla */
+     width: 25%; 
+     transform: translate(-50%, -50%); /* Centra tanto vertical como horizontalmente */
+     z-index: 999; /* Controla la superposición sobre otros elementos */
+   }
+   
+   .cookie-notification a {
+     color: $azul; 
+     text-decoration: none;
+   }
+   
+   .cookie-notification a:hover {
+     text-decoration: underline;
+   }
+   
+   .cookie-notification input[type="button"] {
+     background-color: $lila; 
+     color: $blanco; 
+     border: none;
+     padding: 8px 16px;
+     margin: 5px;
+     cursor: pointer;
+   }
+   
+   .cookie-notification input[type="button"]:hover {
+     background-color: $azul; /* Cambia el color del botón al pasar el mouse */
+   }
+  
+   .lisFoo {
+    display: flex;
+    justify-content: space-between; // Cambiado para separar los elementos a los extremos
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    background-color: $negro;
+    color: $blanco; 
+    p {
+        margin-right: auto; // Empuja el párrafo hacia la izquierda
+    }
+    ul {
+        display: flex; // Ajusta para que los elementos de la lista estén en línea
+        padding: 0; // Remueve el padding predeterminado de la lista
+        margin: 0; // Remueve el margen predeterminado de la lista
+        li {
+            margin: 0 10px;
+        }
+        a {
+            text-decoration: none;
+            color: $blanco;
+            &:hover {
+                color: $azul;
+                text-decoration: underline;
+            }
+        }
+    }
+    .scrollToTop {
+        font-size: 2rem; // Ajusta esto según el tamaño deseado
+        text-decoration: none;
+        color: $blanco;
+        margin-left: auto; // Empuja el botón hacia la derecha
+        border-radius: 50%; // Redondez del botón
+        display: flex;
+        &:hover {
+            color: $azul;
+        }
+    }
+}
+
+  
+/*---  Cookies: Laravel---*/
+.blur {
+     filter: blur(4px); // Para ponerlo borroso
+     pointer-events: none; // Para que la página vaya bien
+   }
+   
+
+   /* Estilo del botón del menú desplegable */
+.dropbtn {
+  background-color: $lila;
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Contenedor del menú desplegable */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Contenido del menú desplegable */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Enlaces dentro del menú desplegable */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Cambiar color de los enlaces al pasar el ratón */
+.dropdown-content a:hover {background-color: #ff0033}
+
+/* Mostrar el menú desplegable al pasar el ratón */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Cambiar el color de fondo del botón al pasar el ratón */
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+

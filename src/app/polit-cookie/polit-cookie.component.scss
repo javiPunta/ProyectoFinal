@@ -1,0 +1,80 @@
+// Variables de estilos
+$font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif; // Fuente principal
+$color-primary: #2A8BF2; // Color primario (azul brillante)
+$color-secondary: #1C1C1C; // Color secundario (oscuro)
+$color-background: #f6f2f2; // Color de fondo claro
+$color-link: #4FA1F3; // Color de los enlaces (azul claro)
+$button-background: linear-gradient(145deg, #2A8BF2, #1E77D8); // Gradiente para el fondo del botón
+$button-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Sombra del botón
+$button-bg-color: $color-primary; // Color de fondo del botón
+$button-text-color: #ffffff; // Color del texto del botón
+
+.cookie-policy-container {
+  font-family: $font-main; // Familia de fuentes
+  background-color: $color-background; // Color de fondo del contenedor
+  color: $color-secondary; // Color de texto
+  padding: 2rem; // Relleno interno
+  border-radius: 0.5rem; // Bordes redondeados
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Sombra de caja
+
+  h2 {
+    color: $color-primary; // Color del texto para encabezados
+    margin-bottom: 1rem; // Margen inferior
+  }
+
+  p {
+    line-height: 1.6; // Altura de línea para mejorar la legibilidad
+    margin-bottom: 1rem; // Espaciado inferior entre párrafos
+
+    a {
+      color: $color-link; // Color de los enlaces
+      text-decoration: none; // Sin subrayado por defecto
+
+      &:hover {
+        text-decoration: underline; // Subrayado en hover
+      }
+    }
+  }
+
+  .negri {
+    font-weight: bold; // Negrita para énfasis
+  }
+
+  ul {
+    list-style: none; // Sin estilo de lista
+    padding-left: 0; // Sin relleno a la izquierda
+
+    li {
+      padding-left: 1.5rem; // Relleno a la izquierda
+      position: relative; // Posición relativa para el pseudo-elemento
+      margin-bottom: 0.5rem; // Espaciado inferior
+
+      &::before {
+        content: ''; // Pseudo-elemento antes del contenido
+        width: 8px; // Ancho del punto de lista
+        height: 8px; // Alto del punto de lista
+        background: $color-primary; // Color de fondo del punto de lista
+        border-radius: 50%; // Bordes redondeados (círculo)
+        position: absolute; // Posición absoluta
+        left: 0; // Alineación a la izquierda
+        top: 50%; // Centrado verticalmente
+        transform: translateY(-50%); // Ajuste para centrar
+      }
+    }
+  }
+
+  .back-button {
+    background-color: $button-bg-color; // Color de fondo del botón
+    color: $button-text-color; // Color del texto del botón
+    padding: 10px 15px; // Relleno interno
+    border: none; // Sin borde
+    border-radius: 4px; // Bordes redondeados
+    cursor: pointer; // Cursor de puntero al pasar por el botón
+    transition: background-color 0.3s ease; // Transición suave para el fondo
+
+    &:hover {
+      transform: translateY(-3px); // Efecto de elevación al pasar el cursor
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); // Sombra más pronunciada en hover
+    }
+  }
+}

@@ -1,0 +1,286 @@
+ <!-- LLAMADA A COOKIES A TRAVÉS DEL FOOTER-->
+<!-- ngClass >> Aplica clases CSS a elementos HTML. 
+{'blur': mostrarFooter} >> Se evalúa en tiempo de ejecución. Si mostrarFooter es true, se aplica
+la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicará. -->
+   <div [ngClass]="{ 'blur': mostrarFooter }">
+
+      <!-- GIF carga  -->
+      <!-- <div class="loader_bg">
+           <div class="loader"><img src="../../assets/images/resto/loading.gif"  alt="Cargando..."></div>
+        </div> -->
+      <!-- FIN GIF carga -->
+   
+      <!-- header -->
+      <header>
+         <!-- header inner -->
+         <div id="top"></div>
+         <div class="header-top">
+            <div class="header">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                        <div class="full">
+                           <div class="center-desk">
+                              <div class="logo">
+                                 <img src="../assets/images/toy3.png" alt="jueguete">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                        <div class="menu-area">
+                           <div class="limit-box">
+                              <nav class="main-menu">
+                                 <ul class="menu-area-main">
+                                    <li class="active"> <a href="index.html">Home</a> </li>
+                                    <li> <a href="#about">Acerca de</a> </li>
+                                    <li> <a href="#games">Ranking</a> </li>
+                                    <li > 
+                                       <a href="#Our_Our">Consulta encuestas clientes</a> 
+                                     </li>
+                                    
+                                    <li> <a href="#booknow">Contacta con nosotros</a> </li>
+                                    <li *ngIf="!session"> <a href="." (click)="goLogin($event)">Login</a> </li>
+                                    <li style="color:white; " *ngIf="session">
+                                       <!-- Menú desplegable con opciones -->
+                                       <div class="dropdown">
+                                          <button class="dropbtn">
+                                             Usuario: <span style=" text-transform: uppercase;"> {{ session }} </span>
+                                          </button>
+                                          <div class="dropdown-content">
+                                             <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
+                                             <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
+                                          </div>
+                                       </div>
+                                       <!-- Fin Menú desplegable con opciones -->
+   
+                                    </li>
+   
+                                 </ul>
+                              </nav>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- end header inner -->
+            <!-- end header -->
+            <section class="slider_section">
+               <div id="myCarousel" class="carousel slide banner_main" data-ride="carousel">
+                  <ol class="carousel-indicators">
+                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                     <li data-target="#myCarousel" data-slide-to="1"></li>
+                     <li data-target="#myCarousel" data-slide-to="2"></li>
+                  </ol>
+                  <div class="carousel-inner">
+                     <div class="carousel-item active">
+                        <div class="container">
+                           <div class="carousel-caption">
+                              <div class="row d_flex">
+                                 <div class="col-md-4">
+                                    <div class="text-bg">
+                                       <h1 class="hh1">Game </h1>
+                                       <a href="." (click)="goSnake($event)">Juega ahora</a>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-8">
+                                    <div class="text-img">
+                                       <figure><img src="../assets/images/item-02.png" alt="juego"></figure>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="carousel-item">
+                        <div class="container">
+                           <div class="carousel-caption">
+                              <div class="row d_flex">
+                                 <div class="col-md-4">
+                                    <div class="text-bg">
+                                       <h1 class="hh1">Tickets </h1>
+                                       <a href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-8">
+                                    <div class="text-img">
+                                       <figure><img src="../../assets/images/resto/encuesta.png" alt="encuesta"></figure>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="carousel-item">
+                        <div class="container">
+                           <div class="carousel-caption">
+                              <div class="row d_flex">
+                                 <div class="col-md-4">
+                                    <div class="text-bg">
+                                       <h1 class="hh1">Premios </h1>
+                                       <a href="." (click)="goRanking($event)">Ver Premios</a>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-8">
+                                    <div class="text-img">
+                                       <figure><img src="../assets/images/resto/premios.png" alt="juego"></figure>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <a class="carousel-control-prev botone" href="#myCarousel" role="button" data-slide="prev">
+                     <span aria-hidden="true"></span>
+                     <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next botone" href="#myCarousel" role="button" data-slide="next">
+                     <span aria-hidden="true"></span>
+                     <span class="sr-only">Next</span>
+                  </a>
+               </div>
+            </section>
+         </div>
+      </header>
+      <!-- about  -->
+      <div id="about" class="about">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h2 class="hh2"> ATG <strong class="white black">Sobre nosotros</strong></h2>
+                     <p>Ofrecemos premios a las personas que compra en los establecimientos y tambien a los que juegan en
+                        nuestra web. Consigue todos los puntos posible para acceder a nuestros 3 premios para los 3
+                        primeros en el ranking. El primer premio es el CLÁSICO TOY RUN, el segundo premio es un vale de
+                        100€ y el tercer premio es un vale descuento del 30%. </p>
+                     <p *ngIf="!session">Para acceder a Juegos y Encuestas debes estar registrado.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="about-box">
+                     <figure><img src="../assets/images/game.jpg" alt="juego"></figure>
+                     <h3>Juegos</h3>
+                     <p>Diviertete con nuestros juegos para ganar puntos extras.</p>
+                  </div>
+                  <a *ngIf="session" class="read_more" href="." (click)="goSnake($event)">Juega ahora</a>
+               </div>
+               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="about-box">
+                     <figure><img src="../assets/images/ticket.jpg" alt="ticket"></figure>
+                     <h3>Tickets</h3>
+                     <p>Canjea nuestros tickets para acceder a nuestras encuestas y gana puntos.</p>
+                  </div>
+                  <a *ngIf="session" class="read_more" href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
+               </div>
+               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                  <div class="about-box">
+                     <figure><img src="../assets/images/consulta.jpg" alt="juego"></figure>
+                     <h3>Consulta encuestas</h3>
+                     <p>Consulta las encuestas propuestas por los clientes.</p>
+                  </div>
+                  <a *ngIf="session" class="read_more" href="." (click)="goConsulta($event)">Consulta ahora</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end abouts -->
+      <!-- Features -->
+      <div id="games" class="Features">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <div class="titlepage">
+                     <h2 class="hh2">Ranking<br><strong class="white"> Games</strong></h2>
+                     <p class="text-color">Accede a nuestro ranking para ver tu posición </p>
+                     <a href="." (click)="goRanking($event)">Ver todo</a>
+                  </div>
+               </div>
+               <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 ">
+                  <div class="row">
+                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 pa_bottom">
+                        <div class="games-box">
+                           <!-- <figure><img src="../assets/images/item-01.png" alt="juego1"></figure> -->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end Features -->
+      <div id="Our_Our" class="Our">
+         <!-- contact -->
+         <div id="booknow" class="contact">
+            <div class="container-fluid">
+               <div class="row no-gutters">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 padding-right1">
+                     <div class="rable-box">
+                        <figure>
+                           <img src="../assets/images/start.jpg" alt="empezar">
+                        </figure>
+                     </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 padding-left1">
+                     <div class="contact">
+                        <div class="titlepage">
+                           <h2 class="hh2">Inscribe tu tienda <br><strong class="white "> Ahora</strong></h2>
+                        </div>
+                        <form [formGroup]="newtiendaForm" (ngSubmit)="entradatienda()">
+                           <div class="row">
+                              <div class="col-sm-12">
+                                 <input type="text" class="contactus" formControlName="nombre_user" placeholder="user" readonly>
+                               </div>
+                             <div class="col-sm-12">
+                               <input type="text" class="contactus" formControlName="nombre_tienda" placeholder="Nombre de la tienda">
+                             </div>
+                             <div class="col-sm-12">
+                               <input type="text" class="contactus" formControlName="telefono" placeholder="Teléfono">
+                             </div>
+                             <div class="col-sm-12">
+                               <button type="submit" class="send botone">Registrar Tienda</button>
+                             </div>
+                           </div>
+                         </form>
+                         
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- end contact -->
+      </div>
+   </div>
+   
+   <!-- FOOTER -->
+   <footer class="footer">
+   
+      <div *ngIf="mostrarFooter">
+         <div class="cookie-notification">
+            <form action="" method="POST">
+               Utilizamos cookies propias y de terceros durante la navegación por el sitio web, con la finalidad de
+               permitir
+               el acceso a las funcionalidades de la página web, extraer estadísticas de tráfico y mejorar la experiencia
+               del
+               usuario. Puedes aceptar todas las cookies, así como seleccionar cuáles deseas habilitar o configurar sus
+               preferencias. Para más información, puede consultar nuestra
+               <a href="#" (click)="goCookie($event)" target="_blank">Política de Cookies</a> <br> <br>
+               <input type="button" value="Acepto" name="Acepto" id="a" (click)="aceptarCookies()">
+               <input type="button" value="Rechazo" name="Rechazo" id="r" (click)="rechazarCookies()">
+            </form>
+         </div>
+      </div>
+      <div class="lisFoo">
+         <p>Copyright © 2023 ATG</p>
+         <ul>
+            <li><a href="#" (click)="goCookie($event)">Política de Cookies</a></li>
+            <li><a href="#" (click)="goLegal($event)">Información Legal</a></li>
+         </ul>
+         <a href="#top" class="scrollToTop">↑</a>
+      </div>
+   </footer>
+   
+   <!-- END FOOTER -->
