@@ -1,33 +1,27 @@
 <div class="cuerpo-form">
-    <div class="contact-wrapper">
-      <div class="gradient-container">
-        <div class="contact-form">
-          <form (ngSubmit)="onSubmit()" [formGroup]="newloginForm">
-            
-            <label for="nombre_user">Usuario</label>
-            <input id="nombre_user" type="text" name="nombre_user"  formControlName="nombre_user">            
-            <br>
-            <br>
-            <label for="contrasenia">Contraseña</label>
-            <input id="contrasenia" type="password" name="contrasenia" formControlName="contrasenia" >
-            <br>
-            <br>
-            <div id="espacioB">
-              <button type="submit" name="boton" value="sesion" id="espacio1">Iniciar Sesión</button>
-              <button (click)="goBack()" >Registrarse</button>
-              
-            </div>
+  <div class="contact-wrapper">
+    <div class="gradient-container">
+      <div class="contact-form">
+        <form (ngSubmit)="onSubmit()" [formGroup]="newloginForm">
+          
+          <label for="nombre_user">Usuario</label>
+          <input id="nombre_user" type="text" name="nombre_user" formControlName="nombre_user" [placeholder]="getNombreUserPlaceholder()">
+          <br>
+          <br>
+          <label for="contrasenia">Contraseña</label>
+          <input id="contrasenia" type="password" name="contrasenia" formControlName="contrasenia" placeholder="Introduce tu contraseña">
+          <br>
+          <br>
+          <div id="espacioB">
+            <button type="submit" name="boton" value="sesion" id="espacio1">Iniciar Sesión</button>
+            <button (click)="goBack()">Registrarse</button>
+          </div>
 
-          </form>
+        </form>
 
-        </div>
       </div>
     </div>
+  </div>
   <button (click)="goHome()" name="boton" value="volver" id="espacio">Volver Atras</button> 
 
-  </div>
-  
-  <div>
-    
-  </div>
-  
+</div>

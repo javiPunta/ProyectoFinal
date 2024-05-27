@@ -6,7 +6,7 @@ import { Usuario } from './model/usuario';
 import { Tienda } from './model/tienda';
 import { Encuesta } from './model/encuesta';
 import { Tabla } from './model/tabla';
-
+import { TiendaUser } from './model/tienda_user';
 @Injectable({
   providedIn: 'root' // Este servicio se proporciona en la raíz de la aplicación
 })
@@ -92,7 +92,7 @@ export class ServicioService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.url}form_user/add_user.php`, usuario, { headers });
   }
-
+ 
   // Métodos para TIENDAS
 
   /**
@@ -112,7 +112,10 @@ export class ServicioService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.url}form_tienda/registro.php`, tienda, { headers });
   }
-
+  getDatosRegistroTiendaConUser(tienda: TiendaUser): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.url}form_tienda/registro_us_tien.php`, tienda, { headers });
+}
   /**
    * Borra una tienda existente.
    * @param tienda - Datos de la tienda a borrar.
@@ -132,7 +135,11 @@ export class ServicioService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.url}form_tienda/modificar_tienda.php`, tienda, { headers });
   }
-
+  getTiendaPorUsuario(TiendaUser: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.url}form_user/buscar_user_tienda.php`, { nombre_user: TiendaUser }, { headers });
+  }
+  
   // Métodos para TICKETS
 
   /**

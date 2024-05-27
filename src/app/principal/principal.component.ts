@@ -16,6 +16,7 @@ export class PrincipalComponent implements OnInit {
   session: string = '';
   mostrarMenuUsuario: boolean = false;
   newtiendaForm!: FormGroup;
+  tieneTienda: boolean = false; // Nueva propiedad para verificar si tiene tienda
 
   constructor(
     private cookieService: CookieService,
@@ -28,13 +29,25 @@ export class PrincipalComponent implements OnInit {
     const sessionCookieExists = this.cookieService.check('session');
     if (sessionCookieExists) {
       this.session = this.cookieService.get('session');
+      this.verificarTiendaRegistrada(this.session); // Verificar si el usuario tiene tienda
     }
     this.mostrarFooter = !this.cookieService.check('Cookies');
 
     this.newtiendaForm = this.fb.group({
-      nombre_user: [this.session, Validators.required], 
+      nombre_user: [this.session, Validators.required],
       nombre_tienda: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9\\s]{3,50}$')]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{7,15}$')]]
+    });
+  }
+
+  verificarTiendaRegistrada(usuario: string) {
+    this.servicioService.getTiendaPorUsuario(usuario).subscribe({
+      next: (response) => {
+        this.tieneTienda = response.tieneTienda;
+      },
+      error: (error) => {
+        console.error('Error al verificar la tienda del usuario', error);
+      }
     });
   }
 
@@ -53,7 +66,7 @@ export class PrincipalComponent implements OnInit {
 
   aceptarCookies() {
     const fechaActual = new Date();
-    const fechaExpiracion = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000); 
+    const fechaExpiracion = new Date(fechaActual.getTime() + 24 * 60 * 60 * 1000);
 
     this.cookieService.set('Cookies', 'Aceptadas', fechaExpiracion);
     this.mostrarFooter = false;
@@ -71,51 +84,61 @@ export class PrincipalComponent implements OnInit {
 
   entradatienda() {
     if (this.newtiendaForm.valid) {
-      const tienda: TiendaUser = {
-        nombre_tienda: this.newtiendaForm.value.nombre_tienda,
-        telefono: this.newtiendaForm.value.telefono,
-        nombre_user: this.newtiendaForm.value.nombre_user
-      };
+        if (this.tieneTienda) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Este usuario ya tiene una tienda adjudicada.',
+                confirmButtonText: 'Aceptar'
+            });
+        } else {
+            const tienda: TiendaUser = {
+                nombre_tienda: this.newtiendaForm.value.nombre_tienda,
+                telefono: this.newtiendaForm.value.telefono,
+                nombre_user: this.newtiendaForm.value.nombre_user
+            };
 
-      this.servicioService.getDatosRegistroTienda(tienda).subscribe({
-        next: (resp) => {
-          if (!resp.error) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Éxito',
-              text: 'Tienda registrada exitosamente!',
-              confirmButtonText: 'Aceptar'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.newtiendaForm.reset();
-              }
+            this.servicioService.getDatosRegistroTiendaConUser(tienda).subscribe({
+                next: (resp) => {
+                    if (!resp.error) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: 'Tienda registrada exitosamente!',
+                            confirmButtonText: 'Aceptar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.newtiendaForm.reset();
+                                this.verificarTiendaRegistrada(this.session); // Re-verificar la tienda registrada
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: resp.error.msg
+                        });
+                    }
+                },
+                error: (error) => {
+                    const errorMessages = this.getErrorMessage(error.error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: errorMessages,
+                        footer: 'Inténtalo de nuevo más tarde'
+                    });
+                }
             });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: resp.error.msg
-            });
-          }
-        },
-        error: (error) => {
-          const errorMessages = this.getErrorMessage(error.error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: errorMessages,
-            footer: 'Inténtalo de nuevo más tarde'
-          });
         }
-      });
     } else {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Validación',
-        text: 'Por favor, completa el formulario correctamente.'
-      });
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validación',
+            text: 'Por favor, completa el formulario correctamente.'
+        });
     }
-  }
+}
 
   getErrorMessage(errors: any): string {
     if (Array.isArray(errors)) {

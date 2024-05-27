@@ -34,11 +34,7 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar√
                                  <ul class="menu-area-main">
                                     <li class="active"> <a href="index.html">Home</a> </li>
                                     <li> <a href="#about">Acerca de</a> </li>
-                                    <li> <a href="#games">Ranking</a> </li>
-                                    <li > 
-                                       <a href="#Our_Our">Consulta encuestas clientes</a> 
-                                     </li>
-                                    
+                                    <li> <a href="#games">Ranking</a> </li>                               
                                     <li> <a href="#booknow">Contacta con nosotros</a> </li>
                                     <li *ngIf="!session"> <a href="." (click)="goLogin($event)">Login</a> </li>
                                     <li style="color:white; " *ngIf="session">
@@ -176,14 +172,15 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar√
                   </div>
                   <a *ngIf="session" class="read_more" href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
                </div>
-               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" *ngIf="tieneTienda">
                   <div class="about-box">
-                     <figure><img src="../assets/images/consulta.jpg" alt="juego"></figure>
-                     <h3>Consulta encuestas</h3>
-                     <p>Consulta las encuestas propuestas por los clientes.</p>
+                    <figure><img src="../assets/images/consulta.jpg" alt="juego"></figure>
+                    <h3>Consulta encuestas</h3>
+                    <p>Consulta las encuestas propuestas por los clientes.</p>
                   </div>
                   <a *ngIf="session" class="read_more" href="." (click)="goConsulta($event)">Consulta ahora</a>
-               </div>
+                </div>
+                
             </div>
          </div>
       </div>

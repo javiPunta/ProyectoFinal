@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ServicioService } from '../servicio.service';
 import { Usuario } from '../model/usuario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -37,20 +38,41 @@ export class LoginComponent {
           );
           this.cookieService.set('session', usuario.nombre_user, expirationDate, '/', 'localhost', false, "Lax");
           this.isLoggedIn = true;
-          this.router.navigateByUrl('principal');
+          Swal.fire({
+            title: 'Login Exitoso',
+            text: 'Has iniciado sesión correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigateByUrl('principal');
+          });
         } else {
           this.fallo = true;
           console.error('La respuesta del servidor no contiene el campo nombre_user.');
         }
       } else {
         this.fallo = true;
-        alert('El usuario no se encuentra en la base de datos');
+        Swal.fire({
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
       }
     }, (error) => {
       this.fallo = true;
       console.error('Error al realizar la petición:', error);
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al realizar la petición. Inténtelo de nuevo más tarde.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
     });
-    
+  }
+
+  getNombreUserPlaceholder() {
+    return 'Introduce tu nombre de usuario';
   }
 
   get nombre_user() {

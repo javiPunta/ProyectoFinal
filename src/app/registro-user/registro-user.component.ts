@@ -71,7 +71,7 @@ export class RegistroUserComponent implements OnInit {
               showConfirmButton: false
             }).then(() => {
               // Navega al componente de login
-              this.router.navigate(['/login']);
+              this.router.navigate(['/principal']);
             });
           } else if (resp.error) {
             // Muestra un mensaje de error si hay errores en la respuesta
