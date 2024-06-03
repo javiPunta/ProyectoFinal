@@ -1,24 +1,39 @@
-<div class="container2" style="background-color: #2E466E">
-  
-  <div class="container2">
-    
+<!-- memorama.component.html -->
+<div class="main-container" style="background-color: #2E466E">
+  <!-- Menú desplegable con opciones -->
+  <div class="dropdown">
+    <button class="dropbtn">
+      Usuario: <span style="text-transform: uppercase;">{{ session }}</span>
+    </button>
+    <div class="dropdown-content">
+      <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
+      <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
+      <a href="javascript:void(0)" (click)="irEditarPerfil()">Editar Perfil</a>
+    </div>
+  </div>
+
+  <div class="inner-container">
     <button class="back-button" (click)="goHome()" id="espacio">
       <span class="material-icons-outlined" style="font-size: 50px;">
         arrow_back
       </span>
     </button>
+
+    <!-- Tarjeta de puntuación -->
     <div class="score-card">
       <div class="score-board">
         <h1>Score</h1>
-        <h3>{{food.currentScore}}</h3>
+        <h3>{{ food.currentScore }}</h3>
       </div>
-      <div class="restart-button" (click)="restartGame()">
-        RESTART
-      </div>
+      <div class="restart-button" (click)="restartGame()">RESTART</div>
     </div>
+
+    <!-- Mensaje de fin del juego -->
     <div class="game-over" *ngIf="gameOver">
       <h1>Game Over</h1>
     </div>
+
+    <!-- Tablero del juego -->
     <div class="game-board"></div>
   </div>
 </div>

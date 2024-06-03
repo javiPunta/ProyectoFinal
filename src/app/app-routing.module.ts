@@ -20,15 +20,21 @@ const routes: Routes = [
   { path: 'registro-user', component: RegistroUserComponent }, // Ruta para el componente RegistroUserComponent
   { path: 'login', component: LoginComponent }, // Ruta para el componente LoginComponent
   { path: 'encuesta', component: EncuestaComponent }, // Ruta para el componente EncuestaComponent
-  { path: 'memorama', component: MemoramaComponent }, // Ruta para el componente MemoramaComponent
+  { path: 'snake', component: MemoramaComponent }, // Nueva ruta para el componente MemoramaComponent
   { path: 'ranking', component: RankingComponent }, // Ruta para el componente RankingComponent
-  { path: 'intranet', component: IntranetComponent }, // Ruta para el componente IntranetComponent
-  { path: 'intranet-conf', component: IntranetConfigComponent }, // Ruta para el componente IntranetConfigComponent
+  { path: 'administracion', component: IntranetComponent }, // Nueva ruta para el componente IntranetComponent
+  { path: 'admin-config', component: IntranetConfigComponent }, // Nueva ruta para el componente IntranetConfigComponent
+  { path: 'admin', component: IntranetTableComponent }, // Nueva ruta para el componente IntranetTableComponent
+  { path: 'admin-gen', component: GeneradorTicketsComponent }, // Nueva ruta para el componente GeneradorTicketsComponent
+  { path: 'resultados', component: EncuestaConsultaComponent }, // Nueva ruta para el componente EncuestaConsultaComponent
+  { path: 'intranet', redirectTo: 'administracion', pathMatch: 'full' }, // Redirección de intranet a administracion
+  { path: 'intranet-conf', redirectTo: 'admin-config', pathMatch: 'full' }, // Redirección de intranet-conf a admin-config
+  { path: 'tabla', redirectTo: 'admin', pathMatch: 'full' }, // Redirección de tabla a admin
+  { path: 'generador', redirectTo: 'admin-gen', pathMatch: 'full' }, // Redirección de generador a admin-gen
+  { path: 'memorama', redirectTo: 'snake', pathMatch: 'full' }, // Redirección de memorama a snake
+  { path: 'consulta', redirectTo: 'resultados', pathMatch: 'full' }, // Redirección de consulta a resultados
   { path: 'cookie', component: PolitCookieComponent }, // Ruta para el componente PolitCookieComponent
   { path: 'privacidad', component: PolitPrivaComponent }, // Ruta para el componente PolitPrivaComponent
-  { path: 'generador', component: GeneradorTicketsComponent }, // Ruta para el componente GeneradorTicketsComponent
-  { path: 'consulta', component: EncuestaConsultaComponent }, // Ruta para el componente EncuestaConsultaComponent
-  { path: 'tabla', component: IntranetTableComponent } // Ruta para el componente IntranetTableComponent
 ];
 
 @NgModule({

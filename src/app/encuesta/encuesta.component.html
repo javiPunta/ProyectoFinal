@@ -1,69 +1,90 @@
 <div class="body1">
+    <!-- Contenedor principal de la encuesta y el menú de usuario -->
     <div class="dropdown">
+        <!-- Botón desplegable para mostrar el nombre del usuario y opciones -->
         <button class="dropbtn">
-            Usuario: <span style=" text-transform: uppercase;"> {{ session }} </span> </button>
+            Usuario: <span style=" text-transform: uppercase;"> {{ session }} </span> <!-- Muestra el nombre de usuario en mayúsculas -->
+        </button>
         <div class="dropdown-content">
+            <!-- Opción para cerrar sesión -->
             <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
+            <!-- Opción para cambiar de usuario -->
             <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
         </div>
     </div>
 
+    <!-- Título de la encuesta -->
     <h2>Encuesta</h2>
+    <!-- Formulario de la encuesta con Angular Reactive Forms -->
     <form (ngSubmit)="enviarRespuestas()" [formGroup]="encuestaForm">
+        <!-- Campo de entrada de texto para mostrar el nombre del usuario -->
         <div class="mb-3">
             <label for="nombre_user" class="form-label">Usuario:</label>
             <input type="text" class="form-control" id="nombre_user" placeholder="Pepito" formControlName="nombre_user" readonly>
         </div>
 
-        <br><div class="pregunta">
-            <label class="e1">Pregunta 1:</label> <br> ¿Estás satisfecho con la variedad de productos disponibles? <br>
+        <!-- Pregunta 1 -->
+        <br>
+        <div class="pregunta">
+            <label class="e1">Pregunta 1:</label>
+            <br> ¿Estás satisfecho con la variedad de productos disponibles? <br>
             <input type="radio" formControlName="e1" value="Si"> Si
             <input type="radio" formControlName="e1" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 2 -->
         <div class="pregunta">
-            <label class="e2">Pregunta 2:</label><br> ¿Encontraste útil la ayuda de nuestro personal cuando necesitaste
-            asistencia?<br>
+            <label class="e2">Pregunta 2:</label>
+            <br> ¿Encontraste útil la ayuda de nuestro personal cuando necesitaste asistencia?<br>
             <input type="radio" formControlName="e2" value="Si"> Si
             <input type="radio" formControlName="e2" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 3 -->
         <div class="pregunta">
-            <label class="e3">Pregunta 3:</label><br> ¿Es buena la limpieza general de nuestra tienda? <br>
+            <label class="e3">Pregunta 3:</label>
+            <br> ¿Es buena la limpieza general de nuestra tienda? <br>
             <input type="radio" formControlName="e3" value="Si"> Si
             <input type="radio" formControlName="e3" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 4 -->
         <div class="pregunta">
-            <label class="e4">Pregunta 4:</label><br> ¿Recomendarías nuestro supermercado a familiares y amigos? <br>
+            <label class="e4">Pregunta 4:</label>
+            <br> ¿Recomendarías nuestro supermercado a familiares y amigos? <br>
             <input type="radio" formControlName="e4" value="Si"> Si
             <input type="radio" formControlName="e4" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 5 -->
         <div class="pregunta">
-            <label class="e5">Pregunta 5:</label><br> ¿Estás satisfecho con la relación calidad-precio de los productos
-            que compraste? <br>
+            <label class="e5">Pregunta 5:</label>
+            <br> ¿Estás satisfecho con la relación calidad-precio de los productos que compraste? <br>
             <input type="radio" formControlName="e5" value="Si"> Si
             <input type="radio" formControlName="e5" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 6 -->
         <div class="pregunta">
-            <label class="e6">Pregunta 6:</label><br> ¿La tienda ofrecía suficientes cajas abiertas para evitar largas
-            colas? <br>
+            <label class="e6">Pregunta 6:</label>
+            <br> ¿La tienda ofrecía suficientes cajas abiertas para evitar largas colas? <br>
             <input type="radio" formControlName="e6" value="Si"> Si
             <input type="radio" formControlName="e6" value="No"> No
         </div>
         <br>
+        <!-- Pregunta 7 -->
         <div class="pregunta">
-            <label class="e7">Pregunta 7:</label><br> ¿Cuál es la probabilidad de que vuelvas a comprar en nuestro
-            supermercado? <br>
+            <label class="e7">Pregunta 7:</label>
+            <br> ¿Cuál es la probabilidad de que vuelvas a comprar en nuestro supermercado? <br>
             <input type="radio" formControlName="e7" value="Si"> Si
             <input type="radio" formControlName="e7" value="No"> No
         </div>
         <br>
+        <!-- Botón para enviar las respuestas -->
         <div>
             <input class="inpt-btn" type="submit" name="boton" value="Enviar" />
         </div>
     </form>
-    <button (click)="goHome()" name="boton" value="volver" id="espacio">Volver Atras</button>
+    <!-- Botón para volver a la página anterior -->
+    <button class="styled-button" (click)="goBack()" name="boton" value="volver">Volver Atrás</button>
 </div>

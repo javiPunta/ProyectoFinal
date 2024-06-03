@@ -41,13 +41,15 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar�
                                        <!-- Menú desplegable con opciones -->
                                        <div class="dropdown">
                                           <button class="dropbtn">
-                                             Usuario: <span style=" text-transform: uppercase;"> {{ session }} </span>
+                                              Usuario: <span style="text-transform: uppercase;">{{ session }}</span>
                                           </button>
                                           <div class="dropdown-content">
-                                             <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
-                                             <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
+                                              <a href="javascript:void(0)" (click)="cerrarSesion()">Cerrar Sesión</a>
+                                              <a href="javascript:void(0)" (click)="cambiarUsuario()">Cambiar Usuario</a>
+                                              <a href="javascript:void(0)" (click)="irEditarPerfil()">Editar Perfil</a> <!-- Nueva opción -->
                                           </div>
-                                       </div>
+                                      </div>
+                                      
                                        <!-- Fin Menú desplegable con opciones -->
    
                                     </li>
@@ -168,7 +170,7 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar�
                   <div class="about-box">
                      <figure><img src="../assets/images/ticket.jpg" alt="ticket"></figure>
                      <h3>Tickets</h3>
-                     <p>Canjea nuestros tickets para acceder a nuestras encuestas y gana puntos.</p>
+                     <p>Canjea nuestros tickets, accede a nuestras encuestas y gana puntos.</p>
                   </div>
                   <a *ngIf="session" class="read_more" href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
                </div>

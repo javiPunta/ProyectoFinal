@@ -49,7 +49,16 @@ $verde: #8DB602; // Ajusta este color al tono verde de la imagen si es necesario
   flex-direction: column;
 }
 
-.container2 {
+.main-container {
+  margin: 0;
+  padding: 20px;
+  color: $verde;
+  @extend %flex-center-column;
+  width: 100%;
+  height: 100vh;
+}
+
+.inner-container {
   margin: 0;
   padding: 20px;
   color: $verde;
@@ -76,8 +85,10 @@ $verde: #8DB602; // Ajusta este color al tono verde de la imagen si es necesario
 
 .game-board {
   background-color: #A8CA3F; // Ajuste del color verde según la imagen proporcionada
-  width: 100vmin;
-  height: 100vmin;
+  width: 90vmin;
+  height: 90vmin;
+  max-width: 90vw;
+  max-height: 90vh;
   display: grid;
   align-self: center;
   grid-template-rows: repeat(21, 1fr);
@@ -109,7 +120,7 @@ $verde: #8DB602; // Ajusta este color al tono verde de la imagen si es necesario
 }
 
 // Estilos para ocultar los controles móviles en pantallas grandes
-.container2 .mobile-controls {
+.inner-container .mobile-controls {
   display: none; // Oculta por defecto
 }
 
@@ -158,11 +169,11 @@ $verde: #8DB602; // Ajusta este color al tono verde de la imagen si es necesario
 
 // Media queries para responsividad
 @media only screen and (max-width: 1025px) {
-  .container, .score-card {
+  .main-container, .score-card {
     flex-direction: column;
   }
   
-  .container2 .mobile-controls {
+  .inner-container .mobile-controls {
     // Los controles móviles se muestran solo en pantallas pequeñas
     display: flex;
     justify-content: center;

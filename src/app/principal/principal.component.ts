@@ -16,7 +16,7 @@ export class PrincipalComponent implements OnInit {
   session: string = '';
   mostrarMenuUsuario: boolean = false;
   newtiendaForm!: FormGroup;
-  tieneTienda: boolean = false; // Nueva propiedad para verificar si tiene tienda
+  tieneTienda: boolean = false;
 
   constructor(
     private cookieService: CookieService,
@@ -29,7 +29,7 @@ export class PrincipalComponent implements OnInit {
     const sessionCookieExists = this.cookieService.check('session');
     if (sessionCookieExists) {
       this.session = this.cookieService.get('session');
-      this.verificarTiendaRegistrada(this.session); // Verificar si el usuario tiene tienda
+      this.verificarTiendaRegistrada(this.session);
     }
     this.mostrarFooter = !this.cookieService.check('Cookies');
 
@@ -84,61 +84,61 @@ export class PrincipalComponent implements OnInit {
 
   entradatienda() {
     if (this.newtiendaForm.valid) {
-        if (this.tieneTienda) {
-            Swal.fire({
+      if (this.tieneTienda) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Este usuario ya tiene una tienda adjudicada.',
+          confirmButtonText: 'Aceptar'
+        });
+      } else {
+        const tienda: TiendaUser = {
+          nombre_tienda: this.newtiendaForm.value.nombre_tienda,
+          telefono: this.newtiendaForm.value.telefono,
+          nombre_user: this.newtiendaForm.value.nombre_user
+        };
+
+        this.servicioService.getDatosRegistroTiendaConUser(tienda).subscribe({
+          next: (resp) => {
+            if (!resp.error) {
+              Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Tienda registrada exitosamente!',
+                confirmButtonText: 'Aceptar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.newtiendaForm.reset();
+                  this.verificarTiendaRegistrada(this.session);
+                }
+              });
+            } else {
+              Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Este usuario ya tiene una tienda adjudicada.',
-                confirmButtonText: 'Aceptar'
+                text: resp.error.msg
+              });
+            }
+          },
+          error: (error) => {
+            const errorMessages = this.getErrorMessage(error.error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              html: errorMessages,
+              footer: 'Inténtalo de nuevo más tarde'
             });
-        } else {
-            const tienda: TiendaUser = {
-                nombre_tienda: this.newtiendaForm.value.nombre_tienda,
-                telefono: this.newtiendaForm.value.telefono,
-                nombre_user: this.newtiendaForm.value.nombre_user
-            };
-
-            this.servicioService.getDatosRegistroTiendaConUser(tienda).subscribe({
-                next: (resp) => {
-                    if (!resp.error) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Éxito',
-                            text: 'Tienda registrada exitosamente!',
-                            confirmButtonText: 'Aceptar'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.newtiendaForm.reset();
-                                this.verificarTiendaRegistrada(this.session); // Re-verificar la tienda registrada
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: resp.error.msg
-                        });
-                    }
-                },
-                error: (error) => {
-                    const errorMessages = this.getErrorMessage(error.error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        html: errorMessages,
-                        footer: 'Inténtalo de nuevo más tarde'
-                    });
-                }
-            });
-        }
-    } else {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Validación',
-            text: 'Por favor, completa el formulario correctamente.'
+          }
         });
+      }
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validación',
+        text: 'Por favor, completa el formulario correctamente.'
+      });
     }
-}
+  }
 
   getErrorMessage(errors: any): string {
     if (Array.isArray(errors)) {
@@ -197,5 +197,9 @@ export class PrincipalComponent implements OnInit {
   goRanking(event: Event) {
     event.preventDefault();
     this.router.navigate(['/ranking']);
+  }
+
+  irEditarPerfil() {
+    this.router.navigate(['/registro-user'], { queryParams: { editar: true } });
   }
 }

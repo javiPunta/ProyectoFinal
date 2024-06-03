@@ -1,66 +1,62 @@
 <div class="bdy">
   <p>Seleccione una opción</p>
-<select [(ngModel)]="seleccion">
-  <option value="opc" disabled selected>Seleccionar una opción</option>
-  <option value="usuario">Usuario</option>
-  <option value="tienda">Tienda</option>
-</select>
+  <select [(ngModel)]="seleccion">
+    <option value="opc" disabled selected>Seleccionar una opción</option>
+    <option value="usuario">Usuario</option>
+    <option value="tienda">Tienda</option>
+  </select>
   
-<div class="cuerpo-form">
+  <div class="cuerpo-form">
     <div class="contact-wrapper">
       <div class="gradient-container">
         <div class="contact-form">
           <div *ngIf="seleccion === 'usuario'">
-          <form  [formGroup]="newusuarioForm" >
-            <br>
-            <br>
-            <br>
-            <label for="nombre_user">Nombre Usuario:</label>
-            <input class="inpt" id="nombre_user" formControlName="nombre_user" type="text" placeholder="50 caracteres máximo. *">
-            <br>
-            <br>
-            <label for="nombre_compl_user">Nombre completo:</label>
-            <input class="inpt" id="nombre_compl_user" formControlName="nombre_compl_user" type="text" placeholder="60 caracteres máximo.">
-            <br>
-            <br>
-            <label for="email">Correo electrónico:</label>
-            <input class="inpt" id="email" formControlName="email" type="text" placeholder="60 caracteres máximo. *" >
-            <br>
-            <br>
-            <label for="contrasenia">Contraseña:</label>
-            <input class="inpt" id="contrasenia" formControlName="contrasenia" type="password" placeholder="********"  >
-            <br>
-            <br><br>
-         
+            <form [formGroup]="newusuarioForm">
+              <br><br><br>
+              <label for="nombre_user">Nombre Usuario:</label>
+              <input class="inpt" id="nombre_user" formControlName="nombre_user" type="text" placeholder="50 caracteres máximo. *">
+              <br><br>
+              <label for="nombre_compl_user">Nombre completo:</label>
+              <input class="inpt" id="nombre_compl_user" formControlName="nombre_compl_user" type="text" placeholder="60 caracteres máximo.">
+              <br><br>
+              <label for="email">Correo electrónico:</label>
+              <input class="inpt" id="email" formControlName="email" type="text" placeholder="60 caracteres máximo. *">
+              <br><br>
+              <label for="contrasenia">Contraseña:</label>
+              <input class="inpt" id="contrasenia" formControlName="contrasenia" type="password" placeholder="********">
+              <br><br><br>
               <input class="inpt-btn" type="button" value="Añadir" (click)="entradaUsuario('add')">
-              <input class="inpt-btn" type="button" value="Borrar" (click)="entradaUsuario('delete')">
-              <input class="inpt-btn" type="button" value="Modificar" (click)="entradaUsuario('modify')">
-              <button (click)="goHome()" style="margin-bottom: 30px;">Volver Atras</button>
-      
-          </form>
-        </div>
-        <div *ngIf="seleccion === 'tienda'">
-          <form  [formGroup]="newtiendaForm">
-            <label for="nombre_tienda">Nombre:</label>
-            <input class="inpt" id="nombre_tienda" formControlName="nombre_tienda" type="text" placeholder="4 caracteres máximo.">
-            <br>
-            <br>
-            <label for="telefono">Teléfono:</label>
-            <input class="inpt" id="telefono" formControlName="telefono" type="text" placeholder="20 caracteres máximo. *" >
-            <br>
-            <br>
-            <input class="inpt-btn" type="button" value="Añadir" (click)="entradaTienda('add')">
-            <input class="inpt-btn" type="button" value="Borrar" (click)="entradaTienda('delete')">
-            <input class="inpt-btn" type="button" value="Modificar" (click)="entradaTienda('modify')">
-      
-          </form>
-        </div>
+              <input class="inpt-btn" type="button" value="Editar" (click)="mostrarCamposEditarTienda()">
+              <button (click)="goHome()" style="margin-bottom: 30px;">Volver Atrás</button>
+            </form>
+          </div>
+          <div *ngIf="seleccion === 'tienda'">
+            <form [formGroup]="newtiendaForm">
+              <!-- Campo visible solo para la modificación -->
+              <div *ngIf="accionTienda === 'edit' || accionTienda === 'modify' || accionTienda === 'delete'">
+                <label for="id_tienda">ID Tienda:</label>
+                <input class="inpt" id="id_tienda" formControlName="id_tienda" type="text" placeholder="ID Tienda">
+                <br><br>
+              </div>
+              <label for="nombre_tienda">Nombre:</label>
+              <input class="inpt" id="nombre_tienda" formControlName="nombre_tienda" type="text" placeholder="4 caracteres máximo.">
+              <br><br>
+              <label for="telefono">Teléfono:</label>
+              <input class="inpt" id="telefono" formControlName="telefono" type="text" placeholder="20 caracteres máximo. *">
+              <br><br>
+              <div *ngIf="accionTienda !== 'edit'">
+                <input class="inpt-btn" type="button" value="Añadir" (click)="entradaTienda('add')">
+                <input class="inpt-btn" type="button" value="Editar" (click)="mostrarCamposEditarTienda()">
+              </div>
+              <div *ngIf="accionTienda === 'edit'">
+                <input class="inpt-btn" type="button" value="Enviar" (click)="entradaTienda('modify')">
+                <input class="inpt-btn" type="button" value="Eliminar" (click)="entradaTienda('delete')">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-     
-
   </div>
-
-  
-  <div>	
+  <button class="styled-button" (click)="goBack()" name="boton" value="volver" id="espacio">Volver Atrás</button>
+</div>

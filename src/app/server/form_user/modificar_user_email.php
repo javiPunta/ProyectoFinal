@@ -4,49 +4,149 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 
-$host = 'localhost';
-$dbname = 'sorteo';
-$user = 'root';
-$pass = '';
+$json = file_get_contents('php://input');
+$params = json_decode($json, true);
+
+error_log("Received JSON: " . $json);
+
+$required_params = ['nombre_user', 'nombre_compl_user', 'contrasenia', 'email'];
+foreach ($required_params as $param) {
+    if (!isset($params[$param])) {
+        error_log("Missing required parameter: " . $param);
+        echo json_encode(['error' => 'Faltan datos para la actualización del usuario']);
+        exit;
+    }
+}
+
+$nombre_user = $params['nombre_user'];
+$nombre_compl_user = $params['nombre_compl_user'];
+$contrasenia = $params['contrasenia'];
+$email = $params['email'];
+$nombre_tienda = isset($params['nombre_tienda']) ? $params['nombre_tienda'] : null;
+$num_ticket = isset($params['num_ticket']) ? $params['num_ticket'] : null;
+$puntos_juego = isset($params['puntos_juego']) ? $params['puntos_juego'] : null;
+$puntos_encuesta = isset($params['puntos_encuesta']) ? $params['puntos_encuesta'] : null;
 
 try {
-    $pdo->beginTransaction();
+    $mbd = new PDO('mysql:host=localhost;dbname=sorteo', "root", "");
+    $mbd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $mbd->beginTransaction();
 
-    // Actualizar datos en la tabla 'usuario'
-    $stmtUsuario = $pdo->prepare("UPDATE usuario SET nombre_compl_user = ?, contrasenia = ? WHERE nombre_user = ?");
-    $stmtUsuario->execute([$data->nombre_compl_user, $data->contrasenia, $data->nombre_user]);
-
-    // Actualizar en 'correo'
-    $stmtCorreo = $pdo->prepare("UPDATE correo SET email = ? WHERE nombre_user = ?");
-    $stmtCorreo->execute([$data->email, $data->nombre_user]);
-
-    // Asumimos que la tienda no cambia, solo actualizamos el teléfono si es necesario
-    if ($data->telefono) {
-        $stmtTienda = $pdo->prepare("UPDATE tienda SET telefono = ? WHERE id_tienda = ?");
-        $stmtTienda->execute([$data->telefono, $id_tienda]);
+    $queryUsuario = "UPDATE usuario SET nombre_compl_user = :nombre_compl_user, contrasenia = :contrasenia WHERE nombre_user = :nombre_user";
+    $stmtUsuario = $mbd->prepare($queryUsuario);
+    $stmtUsuario->execute([
+        ':nombre_user' => $nombre_user,
+        ':nombre_compl_user' => $nombre_compl_user,
+        ':contrasenia' => $contrasenia
+    ]);
+    if ($stmtUsuario->rowCount() === 0) {
+        error_log("No rows updated in 'usuario' table for nombre_user: $nombre_user");
     }
 
-    // Actualizar en 'juego'
-    $stmtJuego = $pdo->prepare("UPDATE juego SET puntos_juego = ?, nombre_juego = ? WHERE nombre_user = ?");
-    $stmtJuego->execute([$data->puntos_juego, 'Juego por defecto', $data->nombre_user]);
+    $queryCorreo = "UPDATE correo SET email = :email WHERE nombre_user = :nombre_user";
+    $stmtCorreo = $mbd->prepare($queryCorreo);
+    $stmtCorreo->execute([
+        ':email' => $email,
+        ':nombre_user' => $nombre_user
+    ]);
+    if ($stmtCorreo->rowCount() === 0) {
+        error_log("No rows updated in 'correo' table for nombre_user: $nombre_user");
+    }
 
-    // Actualizar en 'encuesta'
-    $stmtEncuesta = $pdo->prepare("UPDATE encuesta SET puntos_encuesta = ?, e1 = ?, e2 = ?, e3 = ?, e4 = ?, e5 = ?, e6 = ?, e7 = ? WHERE nombre_user = ?");
-    $stmtEncuesta->execute([$data->puntos_encuesta, 'Respuesta1', 'Respuesta2', 'Respuesta3', 'Respuesta4', 'Respuesta5', 'Respuesta6', 'Respuesta7', $data->nombre_user]);
+    if ($nombre_tienda !== null) {
+        $queryTiendaExistente = "SELECT id_tienda FROM tienda WHERE nombre_tienda = :nombre_tienda";
+        $stmtTiendaExistente = $mbd->prepare($queryTiendaExistente);
+        $stmtTiendaExistente->execute([':nombre_tienda' => $nombre_tienda]);
+        $tiendaExistente = $stmtTiendaExistente->fetch(PDO::FETCH_ASSOC);
 
-    // Actualizar 'tickets'
-    $stmtTickets = $pdo->prepare("UPDATE tickets SET num_ticket = ? WHERE nombre_user = ? AND id_tienda = ?");
-    $stmtTickets->execute([$data->num_ticket, $data->nombre_user, $id_tienda]);
+        if ($tiendaExistente) {
+            $id_tienda = $tiendaExistente['id_tienda'];
+            $queryUserTienda = "UPDATE user_tienda SET id_tienda = :id_tienda WHERE nombre_user = :nombre_user";
+            $stmtUserTienda = $mbd->prepare($queryUserTienda);
+            $stmtUserTienda->execute([
+                ':id_tienda' => $id_tienda,
+                ':nombre_user' => $nombre_user
+            ]);
+            if ($stmtUserTienda->rowCount() === 0) {
+                error_log("No rows updated in 'user_tienda' table for nombre_user: $nombre_user");
+            }
+        } else {
+            $queryInsertTienda = "INSERT INTO tienda (nombre_tienda) VALUES (:nombre_tienda)";
+            $stmtInsertTienda = $mbd->prepare($queryInsertTienda);
+            $stmtInsertTienda->execute([
+                ':nombre_tienda' => $nombre_tienda
+            ]);
+            $id_tienda = $mbd->lastInsertId();
+            $queryUserTienda = "INSERT INTO user_tienda (nombre_user, id_tienda) VALUES (:nombre_user, :id_tienda)";
+            $stmtUserTienda = $mbd->prepare($queryUserTienda);
+            $stmtUserTienda->execute([
+                ':nombre_user' => $nombre_user,
+                ':id_tienda' => $id_tienda
+            ]);
+        }
+    }
 
-    $pdo->commit();
+    if ($num_ticket !== null) {
+        $queryTicketExistente = "SELECT id_ticket FROM tickets WHERE nombre_user = :nombre_user";
+        $stmtTicketExistente = $mbd->prepare($queryTicketExistente);
+        $stmtTicketExistente->execute([':nombre_user' => $nombre_user]);
+        $ticketExistente = $stmtTicketExistente->fetch(PDO::FETCH_ASSOC);
 
-    echo json_encode(['success' => 'Datos del usuario actualizados exitosamente.']);
+        if ($ticketExistente) {
+            $queryTickets = "UPDATE tickets SET num_ticket = :num_ticket, id_tienda = :id_tienda WHERE id_ticket = :id_ticket";
+            $stmtTickets = $mbd->prepare($queryTickets);
+            $stmtTickets->execute([
+                ':num_ticket' => $num_ticket,
+                ':id_tienda' => $id_tienda ?? null,
+                ':id_ticket' => $ticketExistente['id_ticket']
+            ]);
+        } else {
+            $queryInsertTicket = "INSERT INTO tickets (num_ticket, id_tienda, nombre_user) VALUES (:num_ticket, :id_tienda, :nombre_user)";
+            $stmtInsertTicket = $mbd->prepare($queryInsertTicket);
+            $stmtInsertTicket->execute([
+                ':num_ticket' => $num_ticket,
+                ':id_tienda' => $id_tienda ?? null,
+                ':nombre_user' => $nombre_user
+            ]);
+        }
+    }
+
+    if ($puntos_juego !== null) {
+        $queryJuego = "UPDATE juego SET puntos_juego = :puntos_juego WHERE nombre_user = :nombre_user";
+        $stmtJuego = $mbd->prepare($queryJuego);
+        $stmtJuego->execute([
+            ':puntos_juego' => $puntos_juego,
+            ':nombre_user' => $nombre_user
+        ]);
+        if ($stmtJuego->rowCount() === 0) {
+            error_log("No rows updated in 'juego' table for nombre_user: $nombre_user");
+        }
+    }
+
+    if ($puntos_encuesta !== null) {
+        $queryEncuesta = "UPDATE encuesta SET puntos_encuesta = :puntos_encuesta WHERE nombre_user = :nombre_user";
+        $stmtEncuesta = $mbd->prepare($queryEncuesta);
+        $stmtEncuesta->execute([
+            ':puntos_encuesta' => $puntos_encuesta,
+            ':nombre_user' => $nombre_user
+        ]);
+        if ($stmtEncuesta->rowCount() === 0) {
+            error_log("No rows updated in 'encuesta' table for nombre_user: $nombre_user");
+        }
+    }
+
+    $mbd->commit();
+    echo json_encode(['msg' => 'Usuario actualizado exitosamente']);
 } catch (PDOException $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-    http_response_code(500);
-    echo json_encode(['error' => ['msg' => $e->getMessage(), 'code' => $e->getCode()]]);
+    $mbd->rollBack();
+    error_log("Error al actualizar el usuario: " . $e->getMessage());
+    echo json_encode([
+        'error' => [
+            'msg' => $e->getMessage(),
+            'code' => $e->getCode()
+        ]
+    ]);
 } finally {
-    $pdo = null;
+    $mbd = null;
 }
+?>

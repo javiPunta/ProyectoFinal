@@ -12,17 +12,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./encuesta.component.scss']
 })
 export class EncuestaComponent implements OnInit {
-  encuestaForm!: FormGroup;
-  session: string = ''; // Variable session
-  message: string = ''; // Propiedad para los mensajes
-  clasec: string = ''; // Propiedad para la clase del mensaje
-  ticketValid: boolean = false; // Propiedad para controlar la validez del ticket
+  encuestaForm!: FormGroup; // Formulario reactivo para la encuesta
+  session: string = ''; // Variable para almacenar la sesión del usuario
+  message: string = ''; // Variable para mensajes del usuario
+  clasec: string = ''; // Variable para la clase CSS del mensaje
+  ticketValid: boolean = false; // Variable para controlar la validez del ticket
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private cookieService: CookieService,
-    private servicioService: ServicioService
+    private fb: FormBuilder, // Inyección del servicio FormBuilder para construir el formulario
+    private router: Router, // Inyección del servicio Router para navegación
+    private cookieService: CookieService, // Inyección del servicio CookieService para manipulación de cookies
+    private servicioService: ServicioService // Inyección del servicio ServicioService para llamadas a la API
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +32,7 @@ export class EncuestaComponent implements OnInit {
       this.session = this.cookieService.get('session'); // Obtiene el valor de la cookie de sesión
     }
 
+    // Obtener el valor de la cookie de sesión
     const sessionCookie = this.getCookieValue('session');
 
     let usuarioValue = '';
@@ -78,6 +79,7 @@ export class EncuestaComponent implements OnInit {
   }
 
   solicitarTicket() {
+    // Solicitar al usuario que ingrese su número de ticket usando SweetAlert2
     Swal.fire({
       title: 'Ingrese su número de ticket',
       input: 'text',
@@ -88,6 +90,7 @@ export class EncuestaComponent implements OnInit {
       confirmButtonText: 'Verificar',
       showLoaderOnConfirm: true,
       preConfirm: (num_ticket) => {
+        // Llamar al servicio para verificar el número de ticket
         return this.servicioService.verificarTicket({ num_ticket }).toPromise()
           .then(response => {
             if (!response.valid) {
@@ -168,12 +171,12 @@ export class EncuestaComponent implements OnInit {
   }
 
   cambiarUsuario() {
-    this.cookieService.delete('session');
-    this.session = '';
-    this.router.navigate(['/login']); // Asegúrate de que la ruta '/login' esté configurada en tu AppRoutingModule
+    this.cookieService.delete('session'); // Elimina la cookie de sesión
+    this.session = ''; // Limpia la variable de sesión
+    this.router.navigate(['/login']); // Redirige a la página de login
   }
 
-  goHome() {
-    this.router.navigate(['/principal']);
+  goBack() {
+    this.router.navigate(['/principal']); // Redirige a la página principal
   }
 }

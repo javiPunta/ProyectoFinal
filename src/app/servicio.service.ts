@@ -7,6 +7,7 @@ import { Tienda } from './model/tienda';
 import { Encuesta } from './model/encuesta';
 import { Tabla } from './model/tabla';
 import { TiendaUser } from './model/tienda_user';
+import { Ranking } from './model/ranking';
 @Injectable({
   providedIn: 'root' // Este servicio se proporciona en la raíz de la aplicación
 })
@@ -68,10 +69,13 @@ export class ServicioService {
    * @param usuario - Datos completos del usuario a modificar.
    * @returns Observable<any>
    */
-  modificarUsuarioAll(usuario: Tabla): Observable<any> {
+  modificarUsuarioAll(usuario: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log('Enviando datos de usuario:', usuario);
     return this.http.put<any>(`${this.url}form_user/modificar_user_email.php`, usuario, { headers });
   }
+  
+  
 
   /**
    * Inicia sesión con los datos de un usuario.
@@ -121,10 +125,11 @@ export class ServicioService {
    * @param tienda - Datos de la tienda a borrar.
    * @returns Observable<any>
    */
-  borrarTienda(tienda: Tienda): Observable<any> {
+  borrarTienda(id_tienda: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${this.url}form_tienda/borrar_tienda.php`, tienda, { headers });
+    return this.http.post<any>(`${this.url}form_tienda/borrar_tienda.php`, { id_tienda }, { headers });
   }
+  
 
   /**
    * Modifica los datos de una tienda.
@@ -138,6 +143,10 @@ export class ServicioService {
   getTiendaPorUsuario(TiendaUser: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.url}form_user/buscar_user_tienda.php`, { nombre_user: TiendaUser }, { headers });
+  }
+  getTiendaPorUsuario2(nombreUsuario: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.url}form_tienda/nombre_tienda.php`, { nombre_user: nombreUsuario }, { headers });
   }
   
   // Métodos para TICKETS
@@ -186,7 +195,9 @@ export class ServicioService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.url}puntos/almacen_user_rank.php`, mostrar, { headers });
   }
-
+  getRanking(): Observable<Ranking[]> {
+    return this.http.get<Ranking[]>(`${this.url}puntos/suma_puntos.php`);
+  }
   // Métodos para ENCUESTA
 
   /**

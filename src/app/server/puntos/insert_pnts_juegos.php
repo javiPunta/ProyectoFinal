@@ -1,11 +1,33 @@
 <?php
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 $json = file_get_contents('php://input');
 $params = json_decode($json);
+
+// Debugging: Print the received JSON
+error_log("Received JSON: " . $json);
+
+// Check if the JSON was decoded correctly
+if (is_null($params)) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => 'Invalid JSON input.']);
+    exit;
+}
+
+// Ensure the necessary properties are set
+if (!isset($params->apodo) || !isset($params->pnts)) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => 'Missing data in JSON input.']);
+    exit;
+}
 
 $nombre = $params->apodo;
 $puntos = $params->pnts;

@@ -1,4 +1,6 @@
-<div class="fondo">
+<!-- intranet-table.component.html -->
+<div>
+  <!-- Barra lateral -->
   <aside class="sidebar" [ngClass]="{'is-visible': isSidebarVisible}">
     <button class="toggle-sidebar" (click)="toggleSidebar()">
       <i class="fa" [class.fa-times]="isSidebarVisible" [class.fa-arrow-left]="!isSidebarVisible"></i>
@@ -11,83 +13,161 @@
       </ul>
     </nav>
   </aside>
-  <button class="btn btn-secondary" (click)="alternarFormularioAgregarUsuario()">Añadir nueva fila</button>
 
-  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped table-bordered hover">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Nombre Completo</th>
-        <th>Contraseña</th>
-        <th>Nombre de Tienda</th>
-        <th>Teléfono</th>
-        <th>Nº Ticket</th>
-        <th>Puntos Juego</th>
-        <th>Puntos Encuesta</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of usuarios; let i = index">
-        <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user">
-          <td>{{ user.nombre_user }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.nombre_compl_user }}</td>
-          <td>{{ user.contrasenia }}</td>
-          <td>{{ user.nombre_tienda }}</td>
-          <td>{{ user.telefono }}</td>
-          <td>{{ user.num_ticket }}</td>
-          <td>{{ user.puntos_juego }}</td>
-          <td>{{ user.puntos_encuesta }}</td>
-          <td>
-            <button class="btn btn-info" (click)="editarUsuario(user)">Editar</button>
-            <button class="btn btn-danger" (click)="eliminarUsuario(user, i)">Eliminar</button>
-          </td>
-        </ng-container>
-        <ng-container *ngIf="usuarioEditando && usuarioEditando.nombre_user === user.nombre_user">
-          <td><input type="text" [(ngModel)]="usuarioEditando.nombre_user" disabled /></td>
-          <td><input type="email" [(ngModel)]="usuarioEditando.email" /></td>
-          <td><input type="text" [(ngModel)]="usuarioEditando.nombre_compl_user" /></td>
-          <td><input type="text" [(ngModel)]="usuarioEditando.contrasenia" /></td>
-          <td>
-            <select [(ngModel)]="usuarioEditando.nombre_tienda">
-              <option value="">(Ninguna)</option>
+  <!-- Campo de búsqueda y mensaje de administrador -->
+  <div class="mat-elevation-z8">
+    <div class="mat-form-field" style="display: flex; align-items: center;">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar">
+      <div class="admin-message">
+        Si deseas cambiar el nombre de usuario, contacta al administrador: fj.javier.s@gmail.com
+      </div>
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+      <!-- Columna Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingEmail">
+            {{ user.email }}
+          </ng-container>
+          <ng-template #editingEmail>
+            <input matInput [(ngModel)]="usuarioEditando!.email">
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Columna Nombre Completo -->
+      <ng-container matColumnDef="nombreCompleto">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingNombreCompleto">
+            {{ user.nombre_compl_user }}
+          </ng-container>
+          <ng-template #editingNombreCompleto>
+            <input matInput [(ngModel)]="usuarioEditando!.nombre_compl_user">
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Columna Contraseña -->
+      <ng-container matColumnDef="contrasenia">
+        <th mat-header-cell *matHeaderCellDef>Contraseña</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingContrasenia">
+            {{ user.contrasenia }}
+          </ng-container>
+          <ng-template #editingContrasenia>
+            <input matInput [(ngModel)]="usuarioEditando!.contrasenia">
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Columna Nombre de Tienda -->
+      <ng-container matColumnDef="nombreTienda">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de Tienda</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingNombreTienda">
+            {{ user.nombre_tienda }}
+          </ng-container>
+          <ng-template #editingNombreTienda>
+            <select matInput [(ngModel)]="usuarioEditando!.nombre_tienda">
+              <option value="">Selecciona una tienda</option>
               <option *ngFor="let tienda of tiendas" [value]="tienda.nombre_tienda">{{ tienda.nombre_tienda }}</option>
             </select>
-          </td>
-          <td><input type="text" [(ngModel)]="usuarioEditando.telefono" /></td>
-          <td><input type="number" [(ngModel)]="usuarioEditando.num_ticket" /></td>
-          <td><input type="number" [(ngModel)]="usuarioEditando.puntos_juego" /></td>
-          <td><input type="number" [(ngModel)]="usuarioEditando.puntos_encuesta" /></td>
-          <td>
-            <button class="btn btn-success" (click)="guardarCambiosUsuario()">Guardar</button>
-            <button class="btn btn-danger" (click)="cancelarEdicionUsuario()">Cancelar</button>
-          </td>
-        </ng-container>
-      </tr>
+          </ng-template>
+        </td>
+      </ng-container>
 
-      <tr *ngIf="mostrarFormularioAgregarUsuario" class="add-user-form">
-        <td><input type="text" [(ngModel)]="nuevoUsuario.nombre_user" name="nombre" /></td>
-        <td><input type="email" [(ngModel)]="nuevoUsuario.email" name="email" /></td>
-        <td><input type="text" [(ngModel)]="nuevoUsuario.nombre_compl_user" name="nombreCompleto" /></td>
-        <td><input type="password" [(ngModel)]="nuevoUsuario.contrasenia" name="contrasena" /></td>
-        <td>
-          <select [(ngModel)]="nuevoUsuario.nombre_tienda" name="nombreTienda">
-            <option value="">(Ninguna)</option>
-            <option *ngFor="let tienda of tiendas" [value]="tienda.nombre_tienda">{{ tienda.nombre_tienda }}</option>
-          </select>
+      <!-- Columna N° Ticket -->
+      <ng-container matColumnDef="numTicket">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Ticket</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingNumTicket">
+            {{ user.num_ticket }}
+          </ng-container>
+          <ng-template #editingNumTicket>
+            <input matInput [(ngModel)]="usuarioEditando!.num_ticket">
+          </ng-template>
         </td>
-        <td><input type="text" [(ngModel)]="nuevoUsuario.telefono" name="telefono" /></td>
-        <td><input type="number" [(ngModel)]="nuevoUsuario.num_ticket" name="numTicket" /></td>
-        <td><input type="number" [(ngModel)]="nuevoUsuario.puntos_juego" name="puntosJuego" /></td>
-        <td><input type="number" [(ngModel)]="nuevoUsuario.puntos_encuesta" name="puntosEncuesta" /></td>
-        <td>
-          <button type="button" class="btn btn-success" (click)="onSubmitAgregarUsuario()">Añadir</button>
-          <button type="button" class="btn btn-danger" (click)="cancelarAgregarUsuario()">Cancelar</button>
+      </ng-container>
+
+      <!-- Columna Puntos Juego -->
+      <ng-container matColumnDef="puntosJuego">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Puntos Juego</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingPuntosJuego">
+            {{ user.puntos_juego }}
+          </ng-container>
+          <ng-template #editingPuntosJuego>
+            <input matInput [(ngModel)]="usuarioEditando!.puntos_juego">
+          </ng-template>
         </td>
-      </tr>
-    </tbody>
-  </table>
-  <button (click)="goHome()" style="margin-bottom: 30px;">Volver Atras</button>
+      </ng-container>
+
+      <!-- Columna Puntos Encuesta -->
+      <ng-container matColumnDef="puntosEncuesta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Puntos Encuesta</th>
+        <td mat-cell *matCellDef="let user">
+          <ng-container *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user; else editingPuntosEncuesta">
+            {{ user.puntos_encuesta }}
+          </ng-container>
+          <ng-template #editingPuntosEncuesta>
+            <input matInput [(ngModel)]="usuarioEditando!.puntos_encuesta">
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Columna Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let user">
+          <div *ngIf="!usuarioEditando || usuarioEditando.nombre_user !== user.nombre_user">
+            <button mat-button (click)="editarUsuario(user)">Editar</button>
+            <button mat-button (click)="eliminarUsuario(user)">Eliminar</button>
+          </div>
+          <div *ngIf="usuarioEditando && usuarioEditando.nombre_user === user.nombre_user">
+            <button mat-button (click)="guardarCambiosUsuario()">Guardar</button>
+            <button mat-button (click)="cancelarEdicionUsuario()">Cancelar</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <!-- Formulario para agregar nuevo usuario -->
+  <form (ngSubmit)="onSubmitAgregarUsuario()" *ngIf="mostrarFormularioAgregarUsuario">
+    <label>Nombre de Usuario:</label>
+    <input type="text" [(ngModel)]="nuevoUsuario.nombre_user" name="nombre_user" required>
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="nuevoUsuario.email" name="email" required>
+    <label>Nombre Completo:</label>
+    <input type="text" [(ngModel)]="nuevoUsuario.nombre_compl_user" name="nombre_compl_user">
+    <label>Contraseña:</label>
+    <input type="password" [(ngModel)]="nuevoUsuario.contrasenia" name="contrasenia" required>
+    <label>Nombre de Tienda:</label>
+    <select matInput [(ngModel)]="nuevoUsuario.nombre_tienda" name="nombre_tienda">
+      <option value="">Selecciona una tienda</option>
+      <option *ngFor="let tienda of tiendas" [value]="tienda.nombre_tienda">{{ tienda.nombre_tienda }}</option>
+    </select>
+    <label>N° Ticket:</label>
+    <input type="text" [(ngModel)]="nuevoUsuario.num_ticket" name="num_ticket">
+    <label>Puntos Juego:</label>
+    <input type="number" [(ngModel)]="nuevoUsuario.puntos_juego" name="puntos_juego">
+    <label>Puntos Encuesta:</label>
+    <input type="number" [(ngModel)]="nuevoUsuario.puntos_encuesta" name="puntos_encuesta">
+    <button type="submit">Agregar</button>
+    <button type="button" (click)="cancelarAgregarUsuario()">Cancelar</button>
+  </form>
+
+  <!-- Botones adicionales -->
+  <button (click)="alternarFormularioAgregarUsuario()">
+    {{ mostrarFormularioAgregarUsuario ? 'Cerrar Formulario' : 'Agregar Usuario' }}
+  </button>
+  <button (click)="goBack()" name="boton" value="volver" id="espacio">Volver Atras</button>
 </div>

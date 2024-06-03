@@ -12,13 +12,31 @@ $padding-ticket: 10px;
 $border-ticket: 1px dashed $border-color;
 $box-shadow-ticket: 0 2px 5px rgba(0, 0, 0, 0.1); // Sombra para el ticket
 
+// Definición de colores adicionales
+$menu-color: #5555ff;
+$menu-hover-color: darken($menu-color, 10%);
+$menu-border-color: transparent;
+$menu-text-color: #efefef;
+$bar-color: #efefef;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient($outer-background-color-start, $outer-background-color-end); // Gradiente para el fondo
+}
+
 .app-background {
   background: linear-gradient($outer-background-color-start, $outer-background-color-end); // Gradiente para el fondo
   padding: 20px; // Espacio alrededor del ticket
   display: flex;
+  flex-direction: column; // Asegurar que los elementos se coloquen en columna
   justify-content: center;
   align-items: center;
   min-height: 100vh; // Asegurar que cubra toda la altura
+  width: 100vw; // Asegurar que cubra todo el ancho
+  box-sizing: border-box; // Incluir padding y border en el tamaño total
 }
 
 .ticket-container {
@@ -80,5 +98,23 @@ $box-shadow-ticket: 0 2px 5px rgba(0, 0, 0, 0.1); // Sombra para el ticket
     &:hover {
       background-color: darken($background-color, 20%);
     }
+  }
+}
+
+// Estilos para el botón "Volver Atrás"
+#espacio {
+  position: fixed; // Posición fija para mantener el botón en su lugar
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: $menu-color;
+  color: $menu-text-color;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: $box-shadow-ticket; // Aplicar sombra
+
+  &:hover {
+    background-color: $menu-hover-color;
   }
 }

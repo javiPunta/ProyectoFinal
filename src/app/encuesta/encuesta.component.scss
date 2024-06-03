@@ -1,31 +1,30 @@
-// Extracción de colores de las capturas de pantalla
-$color-fondo-encuesta: #1a1919; // Un fondo oscuro que combina con el tema general
-$color-acento-primario: #21d4fd; // Un azul brillante que parece predominar en el sitio
-$color-acento-secundario: #b721ff; // Un púrpura que contrasta bien con el azul
+// Variables de colores
+$color-fondo-encuesta: #1a1919; // Fondo oscuro principal
+$color-acento-primario: #21d4fd; // Azul brillante, usado para acentos y botones
+$color-acento-secundario: #b721ff; // Púrpura, usado para hover y otros acentos
 $color-texto-encuesta: #ffffff; // Texto blanco para legibilidad sobre fondos oscuros
-$color-boton-encuesta: #21d4fd; // Botones con el color de acento primario
-$color-boton-hover: #b721ff; // Cambio de color en hover para interactividad
-
-// Definición de colores basada en la captura de pantalla proporcionada
-$color-fondo-boton: #ffffff; // Color blanco para el fondo del botón
-$color-texto-boton: #21d4fd; // Color azul brillante para el texto del botón
-$color-borde-boton: #21d4fd; // Color azul brillante para el borde del botón
+$color-boton-encuesta: #21d4fd; // Color principal de los botones
+$color-boton-hover: #b721ff; // Color de los botones al hacer hover
 
 // Tipografía general
-$body-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$body-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; // Fuente principal
 
+// Estilo del contenedor principal
 .body1 {
   background-color: $color-fondo-encuesta;
   font-family: $body-font-family;
   color: $color-texto-encuesta;
 }
 
+// Estilo del título de la encuesta
 h2 {
   text-align: center;
   margin-top: 1rem;
   color: $color-acento-primario;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7); // Efecto de neón suave
 }
 
+// Estilo del formulario
 form {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 2rem;
@@ -35,6 +34,7 @@ form {
   margin: 2rem auto;
 }
 
+// Estilo de cada pregunta
 .pregunta {
   background-color: rgba(255, 255, 255, 0.1);
   border-left: 4px solid $color-acento-primario;
@@ -48,8 +48,8 @@ form {
   }
 }
 
-// Botones y entradas
-input[type="submit"] {
+// Estilo de los botones y entradas
+input[type="submit"], .styled-button {
   background-color: $color-boton-encuesta;
   color: $color-texto-encuesta;
   border: none;
@@ -67,7 +67,7 @@ input[type="radio"] {
   accent-color: $color-acento-primario;
 }
 
-// Dropdown menu styles
+// Estilo del menú desplegable
 .dropdown {
   .dropbtn {
     background-color: $color-acento-primario;
@@ -107,37 +107,17 @@ input[type="radio"] {
   }
 }
 
-
-// Estilo para el botón 'Volver Atrás'
-#espacio {
-  background-color: $color-fondo-boton;
-  color: $color-texto-boton;
-  border: 2px solid $color-borde-boton;
-  padding: 10px 20px;
+// Clase común para el botón "Volver Atrás"
+.styled-button {
+  background-color: $color-boton-encuesta;
+  color: $color-texto-encuesta;
+  border: none;
+  padding: 0.75rem 1.5rem;
   border-radius: 20px; // Radio de borde redondeado similar al botón 'Enviar'
   cursor: pointer;
-  font-size: 1rem;
   font-weight: bold;
-  text-transform: uppercase;
-  transition: background-color 0.2s, color 0.2s;
-  box-shadow: none; // Sin sombra para un diseño plano
-
+  transition: background-color 0.3s ease;
   &:hover {
-    background-color: $color-texto-boton; // Inversión de colores al pasar el ratón
-    color: $color-fondo-boton;
+    background-color: $color-boton-hover;
   }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba($color-texto-boton, 0.5);
-  }
-
-  &:active {
-    transform: translateY(2px); // Efecto al hacer clic
-  }
-}
-
-h2{
-  color: #ffffff; /* Changed to white for that neon effect */
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7); /* Soft neon glow */
 }

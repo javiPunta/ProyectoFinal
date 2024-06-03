@@ -6,6 +6,7 @@ header("Access-Control-Allow-Methods: *");
 
 try {
     $mbd = new PDO('mysql:host=localhost;dbname=sorteo', "root", "");
+    $mbd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Consulta utilizando alias y simplificando las uniones
     $stmt = $mbd->query('
@@ -15,7 +16,6 @@ try {
             u.nombre_compl_user AS nombre_compl_user,
             u.contrasenia AS contrasenia,
             t.nombre_tienda AS nombre_tienda,
-            t.telefono AS telefono,
             ti.num_ticket AS num_ticket,
             j.puntos_juego AS puntos_juego,
             e.puntos_encuesta AS puntos_encuesta
@@ -37,14 +37,20 @@ try {
             u.nombre_user
     ');
 
-    if ($stmt) {
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($stmt === false) {
+        throw new PDOException('Error en la consulta SQL.');
+    }
+
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($rows) {
         echo json_encode($rows);
     } else {
-        echo json_encode(array('error' => 'Error en la consulta.'));
+        echo json_encode(array('error' => 'No se encontraron datos.'));
     }
 
     $mbd = null; // Desconectar
 } catch (PDOException $e) {
     echo json_encode(array('error' => array('msg' => $e->getMessage(), 'code' => $e->getCode())));
 }
+?>

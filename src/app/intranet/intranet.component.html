@@ -1,16 +1,23 @@
+<!-- Contenedor principal -->
 <div class="bdy">
-<input type="checkbox" id="mmeennuu">
-		<label class="menu" for="mmeennuu">
-			<div class="barry">
-				<span class="bar"></span>
-				<span class="bar"></span>
-				<span class="bar"></span>
-				<span class="bar"></span>
-			</div>
-			<ul>
-				<li><a id="home" href="#home" (click)="goForm($event)">Usuario y Tienda</a></li>
-				<li><a id="about" href="#about" (click)="goGen($event)">Tabla</a></li>
-			</ul>
-		</label>
-<div>	
-		
+	<!-- Checkbox oculto para controlar el estado del menú -->
+	<input type="checkbox" id="mmeennuu">
+	
+	<!-- Etiqueta que actúa como botón para el menú -->
+	<label class="menu" for="mmeennuu">
+	  <!-- Contenedor de barras del menú (icono de hamburguesa) -->
+	  <div class="barry">
+		<!-- Barras del menú -->
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	  </div>
+	  <!-- Lista de opciones del menú -->
+	  <ul>
+		<li><a id="home" href="#" (click)="goForm($event)">Usuario y Tienda</a></li>
+		<li><a id="about" href="#" (click)="goGen($event)">Tabla</a></li>
+	  </ul>
+	</label>
+  </div>
+  

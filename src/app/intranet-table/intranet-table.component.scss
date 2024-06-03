@@ -1,14 +1,26 @@
+/* intranet-table.component.scss */
 /* Variables de colores basadas en la imagen */
 $color-background: #2c3e50; // Color de fondo oscuro
 $color-text: #ecf0f1; // Color de texto claro
 $color-hover: #34495e; // Color al pasar el ratón
 $color-active: #16a085; // Color para elementos activos o al hacer clic
+$color-hover2: #5a6d82; // Nuevo color para el hover de la tabla
+$color-border: #ccc; // Color de borde
+$color-button: #007bff; // Color del botón azul (editar)
+$color-button-hover: #0056b3; // Color del botón azul al pasar el ratón
+$color-button-danger: #e74c3c; // Color del botón rojo (eliminar)
+$color-button-danger-hover: darken(#e74c3c, 10%); // Color del botón rojo al pasar el ratón
+$color-button-add: #2c3e50; // Color del botón para añadir fila
+$color-button-add-hover: darken(#2c3e50, 10%); // Color del botón para añadir fila al pasar el ratón
+$color-alert-info-text: #31708f; // Color del texto de la alerta
+$color-alert-info-bg: #d9edf7; // Color de fondo de la alerta
+$color-alert-info-border: #bce8f1; // Color del borde de la alerta
 
 /* Estilos para los inputs dentro de la fila de formulario */
 table.dataTable tr.add-user-form td input {
   padding: 8px; /* Relleno como en las celdas de la tabla */
   margin: 0; /* Sin margen para alinearse con el estilo de la tabla */
-  border: 1px solid #ccc; /* Borde suave como el de los inputs del formulario */
+  border: 1px solid $color-border; /* Borde suave como el de los inputs del formulario */
   width: 100%; /* Ocupar todo el ancho de la celda */
 }
 
@@ -16,13 +28,13 @@ table.dataTable tr.add-user-form td input {
 table.dataTable tr.add-user-form td button {
   padding: 10px 20px; /* Alineado con el estilo del botón de tu formulario */
   border: none;
-  background-color: #007bff; /* Color azul para el botón */
+  background-color: $color-button; /* Color azul para el botón */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: $color-button-hover;
   }
 }
 
@@ -30,6 +42,28 @@ table.dataTable tr.add-user-form td button {
   float: right; // Esto alineará el botón a la derecha
   margin-right: 15px; // Añade un margen a la derecha si necesitas separación del borde
   margin-top: 15px; // Añade un margen arriba si necesitas separación de otros elementos o del borde superior
+  background-color: $color-button-add;
+  color: $color-text;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $color-button-add-hover;
+  }
+}
+
+/* Estilos para el botón de "Volver Atras" */
+button.volver-atras {
+  background-color: $color-background;
+  color: $color-text;
+  border: 1px solid $color-background;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &:hover {
+    background-color: darken($color-background, 10%);
+    border-color: darken($color-background, 10%);
+  }
 }
 
 /* Asegúrate de que la fila de formulario tenga el mismo fondo que las otras filas */
@@ -69,7 +103,7 @@ table.dataTable tr.add-user-form {
         color: $color-text;
         text-decoration: none;
         transition: background-color 0.3s ease;
-        cursor: pointer; // Add cursor pointer here
+        cursor: pointer; // Añade el cursor pointer aquí
 
         &:hover {
           background-color: $color-hover;
@@ -119,6 +153,95 @@ table.dataTable tr.add-user-form {
 
   &:hover {
     color: darken($color-text, 10%);
+  }
+}
+
+/* Estilos para la tabla */
+table.dataTable {
+  thead {
+    background-color: $color-background;
+    color: $color-text;
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background-color: $color-hover2;
+      }
+
+      td {
+        border-color: $color-hover;
+      }
+
+      td input,
+      td select {
+        background-color: $color-text;
+        color: $color-background;
+        border: 1px solid $color-background;
+      }
+
+      td button {
+        background-color: $color-active;
+        color: $color-text;
+
+        &:hover {
+          background-color: darken($color-active, 10%);
+        }
+      }
+    }
+  }
+}
+
+/* Estilos para el botón dentro de la tabla */
+table.dataTable td button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn.btn-info {
+  background-color: $color-button !important; /* Azul para "Editar" */
+
+  &:hover {
+    background-color: $color-button-hover !important;
+  }
+}
+.admin-message {
+  margin-left: 20px; /* Ajusta este valor según sea necesario */
+  padding: 10px;
+  background-color: lighten($color-background, 10%);
+  color: $color-text;
+  border: 1px solid $color-border;
+}
+
+
+.btn.btn-danger {
+  background-color: $color-button-danger !important; /* Rojo para "Eliminar" */
+
+  &:hover {
+    background-color: $color-button-danger-hover !important;
+  }
+}
+
+.btn.btn-success {
+  background-color: $color-active; /* Verde para "Guardar" */
+
+  &:hover {
+    background-color: darken($color-active, 10%);
+  }
+}
+
+.alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  &.alert-info {
+    color: $color-alert-info-text;
+    background-color: $color-alert-info-bg;
+    border-color: $color-alert-info-border;
   }
 }
 

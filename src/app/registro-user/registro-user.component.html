@@ -2,12 +2,16 @@
   <div class="contact-wrapper">
     <div class="gradient-container">
       <div class="contact-form">
+        
         <!-- Formulario Angular con ngSubmit y formGroup -->
         <form (ngSubmit)="entradausuario()" [formGroup]="newusuarioForm">
-          
+          <!-- Mensaje condicional para el modo de edición -->
+          <div *ngIf="editMode" class="alert alert-info">
+            Para cambiar el nombre de usuario, por favor póngase en contacto con el administrador en <a href="mailto:fj.javier.d@gmail.com">fj.javier.d@gmail.com</a>.
+          </div>
           <!-- Campo para el nombre de usuario -->
           <label for="nombre_user">Nombre Usuario:</label>
-          <input class="inpt" id="nombre_user" formControlName="nombre_user" type="text" placeholder="Solo letras y números, 3-20 caracteres *">
+          <input class="inpt" id="nombre_user" formControlName="nombre_user" type="text" placeholder="Solo letras y números, 3-20 caracteres *" [readonly]="editMode">
           <br>
           <br>
           
@@ -30,7 +34,8 @@
           <br><br>
           
           <!-- Botón de submit para enviar el formulario -->
-          <input class="inpt-btn" type="submit" name="boton1" value="Añadir">
+          <input *ngIf="!editMode" class="inpt-btn" type="submit" name="boton1" value="Añadir">
+          <input *ngIf="editMode" class="inpt-btn" type="submit" name="boton1" value="Editar">
 
           <!-- Botón para volver atrás -->
           <button (click)="goBack()" name="boton" value="volver" id="espacio">Volver Atras</button>

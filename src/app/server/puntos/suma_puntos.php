@@ -1,8 +1,12 @@
 <?php
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT");
 
 $servername = "localhost";
-$username = "your-username";
-$password = "your-password";
+$username = "root";
+$password = "";
 $dbname = "sorteo";
 
 // Crear la conexión
@@ -13,10 +17,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Seleccionar todos los usuarios
+// Obtener todos los usuarios
 $sql = "SELECT nombre_user FROM usuario";
 $result = $conn->query($sql);
 
+$ranking = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $nombre_user = $row["nombre_user"];
@@ -42,15 +47,15 @@ if ($result->num_rows > 0) {
         // Calcular los puntos totales
         $totalPoints = $totalJuego + $totalEncuesta;
 
-        // Actualizar la tabla ranking
-        $sqlUpdate = "UPDATE ranking SET puntos_total = ? WHERE nombre_user = ?";
-        $stmtUpdate = $conn->prepare($sqlUpdate);
-        $stmtUpdate->bind_param("is", $totalPoints, $nombre_user);
-        $stmtUpdate->execute();
+        // Añadir al ranking
+        $ranking[] = [
+            'nombre_user' => $nombre_user,
+            'puntos_total' => $totalPoints
+        ];
     }
-} else {
-    echo "No users found in the database.";
 }
+
+echo json_encode($ranking);
 
 // Cerrar la conexión
 $conn->close();

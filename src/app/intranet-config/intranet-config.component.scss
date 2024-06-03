@@ -1,27 +1,28 @@
-//Paleta de colores
+// Paleta de colores utilizada en el proyecto
 $azul: #2C74CE;
 $lila: #5555ffff;
-$blanco:#fff;
+$blanco: #fff;
 $negro: #000000;
 $negro-claro: #222;
 $gris: #333;
-$gris-claro:#ccc;
+$gris-claro: #ccc;
 
 .bdy {
-    margin: 0;
-    padding: 0;
-    background-color: $negro-claro !important;
-    font-family: Helvetica, sans-serif;
-    min-height: 100vh; // Altura mínima de toda la ventana gráfica
-    overflow: auto; // Se agrega barra de desplazamiento si el contenido es mayor que la pantalla
-    z-index: 1; // Asegúrate de que esto no esté enviando tu contenido detrás de otros elementos
-    color: $blanco;  
+  // Estilos generales para el cuerpo del componente
+  margin: 0;
+  padding: 0;
+  background-color: $negro-claro !important;
+  font-family: Helvetica, sans-serif;
+  min-height: 100vh; // Altura mínima de toda la ventana gráfica
+  overflow: auto; // Se agrega barra de desplazamiento si el contenido es mayor que la pantalla
+  z-index: 1; // Asegúrate de que esto no esté enviando tu contenido detrás de otros elementos
+  color: $blanco;
 }
-  
-  .cuerpo-form {
-    overflow: auto; // Esto añadirá una barra de desplazamiento al contenedor si el contenido es demasiado grande
-  }
-  
+
+.cuerpo-form {
+  overflow: auto; // Esto añadirá una barra de desplazamiento al contenedor si el contenido es demasiado grande
+}
+
 // Estilos de formulario
 .contact-wrapper {
   display: flex;
@@ -88,41 +89,55 @@ $gris-claro:#ccc;
   }
 }
 
-// Agregar otros estilos específicos que necesites...
+// Estilos adicionales para los elementos del selector
 select {
-    display: block; // Para que ocupe su propia línea, puedes ajustar según necesites
-    width: 100%;  
-    padding: 10px;
-    margin-bottom: 20px; 
-    background-color: $gris; 
-    color: $gris-claro; 
-    border: 1px solid darken($gris, 10%); // Borde un poco más oscuro que el fondo
-    border-radius: 5px; 
-    appearance: none; // Remueve la apariencia por defecto de algunos navegadores
-    background-repeat: no-repeat;
-    background-position: right 10px center; // Posiciona la flecha a la derecha
-    background-size: 12px 12px; // Tamaño del ícono de flecha
-    cursor: pointer;
-  
-    // Estilos para cuando el select tiene foco
-    &:focus {
-      outline: none; // Remueve el contorno por defecto al enfocar
-      border-color: $azul; // Cambia el color del borde al enfocar
-    }
-    
-    // Puedes necesitar agregar estilos para el estado :hover también
-    &:hover {
-      border-color: lighten($azul, 10%); // Ejemplo de un borde más claro en hover
-    }
-  
-    // Estilos para las opciones del select
-    option {
-      background: $negro-claro; // Fondo oscuro para las opciones
-      color: $blanco;
-  
-      // Ejemplo de estilo para las opciones cuando están deshabilitadas
-      &:disabled {
-        color: darken($blanco, 30%); // Texto de color más oscuro
-      }
+  display: block; // Para que ocupe su propia línea, puedes ajustar según necesites
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: $gris;
+  color: $gris-claro;
+  border: 1px solid darken($gris, 10%); // Borde un poco más oscuro que el fondo
+  border-radius: 5px;
+  appearance: none; // Remueve la apariencia por defecto de algunos navegadores
+  background-repeat: no-repeat;
+  background-position: right 10px center; // Posiciona la flecha a la derecha
+  background-size: 12px 12px; // Tamaño del ícono de flecha
+  cursor: pointer;
+
+  // Estilos para cuando el select tiene foco
+  &:focus {
+    outline: none; // Remueve el contorno por defecto al enfocar
+    border-color: $azul; // Cambia el color del borde al enfocar
+  }
+
+  // Puedes necesitar agregar estilos para el estado :hover también
+  &:hover {
+    border-color: lighten($azul, 10%); // Ejemplo de un borde más claro en hover
+  }
+
+  // Estilos para las opciones del select
+  option {
+    background: $negro-claro; // Fondo oscuro para las opciones
+    color: $blanco;
+
+    // Ejemplo de estilo para las opciones cuando están deshabilitadas
+    &:disabled {
+      color: darken($blanco, 30%); // Texto de color más oscuro
     }
   }
+}
+
+// Estilos adicionales para el botón "Volver Atrás"
+.styled-button {
+  padding: 10px 20px;
+  background: #2C74CE;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #5555ff;
+  }
+}

@@ -17,7 +17,15 @@ import { PolitPrivaComponent } from './polit-priva/polit-priva.component';
 import { GeneradorTicketsComponent } from './generador-tickets/generador-tickets.component';
 import { EncuestaConsultaComponent } from './encuesta-consulta/encuesta-consulta.component';
 import { IntranetTableComponent } from './intranet-table/intranet-table.component';
-import { DataTablesModule } from 'angular-datatables'; // Importamos DataTablesModule
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importamos BrowserAnimationsModule
+
+// Importaciones de Angular Material
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -42,7 +50,15 @@ import { DataTablesModule } from 'angular-datatables'; // Importamos DataTablesM
     HttpClientModule, // Módulo para hacer peticiones HTTP
     ReactiveFormsModule, // Módulo para formularios reactivos
     FormsModule, // Módulo para formularios basados en plantillas
-    DataTablesModule.forRoot() // Módulo para utilizar DataTables
+    BrowserAnimationsModule, // Módulo necesario para las animaciones de Angular Material
+
+    // Angular Material modules
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent] // Componente raíz que se inicializa al arrancar la aplicación

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ServicioService } from '../servicio.service'; 
-import { Generado } from '../model/alluser'; 
+import { ServicioService } from '../servicio.service';
+import { Generado } from '../model/alluser';
+import { Tienda } from '../model/tienda';
+import { Router } from '@angular/router'; // Importa el servicio Router
 import Swal from 'sweetalert2';
 
 interface ToyItem {
@@ -30,6 +32,7 @@ interface ToyItem {
         <p><strong>TOTAL: {{ total | currency:'EUR' }}</strong></p>
         <button (click)="generateTicket()">Generar Ticket</button>
       </div>
+      <button (click)="goBack()" name="boton" value="volver" id="espacio">Volver Atras</button>
     </div>
   `
 })
@@ -44,6 +47,8 @@ export class GeneradorTicketsComponent implements OnInit {
   facturaSimplificada: string = '';
   usuarios: Generado[] = [];
   selectedUser: string = '';
+  tiendas: Tienda[] = [];
+  selectedStoreId: number | null = null;
 
   private toyDatabase: ToyItem[] = [
     { name: 'Muñeca Bailarina', price: 10.99 },
@@ -58,32 +63,11 @@ export class GeneradorTicketsComponent implements OnInit {
     { name: 'Juego de Mesa', price: 19.95 }
   ];
 
-  private storeNames: string[] = [
-    'Juguettos',
-    'Poly',
-    'Eurekakids',
-    'Imaginarium',
-    'Drim',
-    'Nabumbu Toys',
-    'Toy Planet',
-    'Juguetilandia',
-    'Tutete',
-    'Juguetes El Corte Inglés'
-  ];
-
-  private addressParts = {
-    streets: ['Avenida del Juguete', 'Calle de la Fantasía', 'Paseo de los Niños', 'Vía Lúdica'],
-    numbers: ['123', '45', '6B', '78A'],
-    zipCodes: ['28001', '08002', '41004', '29005'],
-    cities: ['Madrid', 'Barcelona', 'Sevilla', 'Málaga']
-  };
-
-  constructor(private servicio: ServicioService) {
-    this.generateTicket(); // Generar un ticket al instanciar el componente
-  }
+  constructor(private servicio: ServicioService, private router: Router) {} // Inyecta el servicio Router
 
   ngOnInit() {
     this.cargarUsuarios();
+    this.cargarTiendas();
   }
 
   cargarUsuarios(): void {
@@ -97,9 +81,30 @@ export class GeneradorTicketsComponent implements OnInit {
     );
   }
 
+  cargarTiendas(): void {
+    this.servicio.getDatosTienda().subscribe(
+      (tiendas: Tienda[]) => {
+        console.log('Tiendas cargadas:', tiendas);
+        this.tiendas = tiendas;
+        this.generateTicket(); // Generar el ticket después de cargar las tiendas
+      },
+      error => {
+        console.error('No se pudieron cargar las tiendas', error);
+      }
+    );
+  }
+
   generateTicket() {
-    this.storeName = this.storeNames[Math.floor(Math.random() * this.storeNames.length)];
-    this.phoneNumber = this.generateRandomPhoneNumber();
+    if (this.tiendas.length === 0) {
+      Swal.fire('Error', 'No hay tiendas disponibles', 'error');
+      return;
+    }
+
+    const randomTiendaIndex = Math.floor(Math.random() * this.tiendas.length);
+    const randomTienda = this.tiendas[randomTiendaIndex];
+    this.storeName = randomTienda.nombre_tienda;
+    this.selectedStoreId = randomTienda.id_tienda ?? null;
+    this.phoneNumber = randomTienda.telefono;
     this.dni = this.generateRandomDNI();
     this.address = this.generateRandomAddress();
     this.currentDateTime = new Date();
@@ -115,7 +120,6 @@ export class GeneradorTicketsComponent implements OnInit {
       cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Mostrar select para elegir usuario
         Swal.fire({
           title: 'Selecciona un usuario',
           input: 'select',
@@ -141,15 +145,6 @@ export class GeneradorTicketsComponent implements OnInit {
     });
   }
 
-  private generateRandomPhoneNumber(): string {
-    const phonePrefix = '6'; // Spanish mobile numbers start with 6 or 7
-    let phoneNumber = phonePrefix;
-    for (let i = 0; i < 8; i++) {
-      phoneNumber += Math.floor(Math.random() * 10).toString();
-    }
-    return phoneNumber;
-  }
-
   private generateRandomDNI(): string {
     const dniNumbers = this.generateRandomDigits(8);
     const letter = this.calculateDNILetter(dniNumbers);
@@ -171,14 +166,19 @@ export class GeneradorTicketsComponent implements OnInit {
   }
 
   private generateRandomInvoiceNumber(): string {
-    return `${this.generateRandomDigits(4)}-${this.generateRandomDigits(3)}-${this.generateRandomDigits(5)}`;
+    return `${this.generateRandomDigits(4)}${this.generateRandomDigits(3)}${this.generateRandomDigits(5)}`;
   }
 
   private generateRandomAddress(): string {
-    const street = this.addressParts.streets[Math.floor(Math.random() * this.addressParts.streets.length)];
-    const number = this.addressParts.numbers[Math.floor(Math.random() * this.addressParts.numbers.length)];
-    const zipCode = this.addressParts.zipCodes[Math.floor(Math.random() * this.addressParts.zipCodes.length)];
-    const city = this.addressParts.cities[Math.floor(Math.random() * this.addressParts.cities.length)];
+    const streets = ['Avenida del Juguete', 'Calle de la Fantasía'];
+    const numbers = ['123', '45'];
+    const zipCodes = ['28001', '08002'];
+    const cities = ['Madrid', 'Barcelona'];
+
+    const street = streets[Math.floor(Math.random() * streets.length)];
+    const number = numbers[Math.floor(Math.random() * numbers.length)];
+    const zipCode = zipCodes[Math.floor(Math.random() * zipCodes.length)];
+    const city = cities[Math.floor(Math.random() * cities.length)];
 
     return `${street}, Nº ${number}, ${zipCode}, ${city}`;
   }
@@ -196,17 +196,24 @@ export class GeneradorTicketsComponent implements OnInit {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/tabla']);
+  }
+
   guardarFacturaSimplificada(): void {
-    if (this.selectedUser && this.facturaSimplificada) {
-      const num_ticket_sin_guiones = this.facturaSimplificada.replace(/-/g, ''); // Eliminar guiones
+    if (this.selectedUser && this.facturaSimplificada && this.selectedStoreId !== null) {
+      const num_ticket_sin_guiones = parseInt(this.facturaSimplificada.replace(/-/g, ''), 10); // Convertir a entero
       const payload = {
         nombre_user: this.selectedUser,
-        num_ticket: num_ticket_sin_guiones
+        num_ticket: num_ticket_sin_guiones,
+        id_tienda: this.selectedStoreId
       };
       console.log(payload); // Verificar los datos antes de enviar la solicitud
       this.servicio.guardarFacturaSimplificada(payload).subscribe(
         respuesta => {
-          Swal.fire('Éxito', 'Factura simplificada guardada correctamente', 'success');
+          Swal.fire('Éxito', 'Factura simplificada guardada correctamente', 'success').then(() => {
+            this.router.navigate(['/tabla']); // Redirigir a /tabla después de guardar
+          });
         },
         error => {
           Swal.fire('Error', 'No se pudo guardar la factura simplificada', 'error');

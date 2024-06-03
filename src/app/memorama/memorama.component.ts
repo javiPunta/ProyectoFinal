@@ -120,7 +120,9 @@ export class MemoramaComponent implements OnInit, AfterViewInit {
     this.session = '';
     this.router.navigate(['/login']);
   }
-
+  irEditarPerfil() {
+    this.router.navigate(['/registro-user'], { queryParams: { editar: true } });
+  }
   goHome() {
     this.router.navigate(['/principal']);
   }
