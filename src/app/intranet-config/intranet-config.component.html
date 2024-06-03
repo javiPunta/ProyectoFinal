@@ -27,7 +27,7 @@
               <br><br><br>
               <input class="inpt-btn" type="button" value="Añadir" (click)="entradaUsuario('add')">
               <input class="inpt-btn" type="button" value="Editar" (click)="mostrarCamposEditarTienda()">
-              <button (click)="goHome()" style="margin-bottom: 30px;">Volver Atrás</button>
+              <button (click)="goHome()" style="margin-bottom: 30px;">Ir a tabla</button>
             </form>
           </div>
           <div *ngIf="seleccion === 'tienda'">
@@ -47,6 +47,7 @@
               <div *ngIf="accionTienda !== 'edit'">
                 <input class="inpt-btn" type="button" value="Añadir" (click)="entradaTienda('add')">
                 <input class="inpt-btn" type="button" value="Editar" (click)="mostrarCamposEditarTienda()">
+                <button (click)="goHome()" style="margin-bottom: 30px;">Ir a tabla</button>
               </div>
               <div *ngIf="accionTienda === 'edit'">
                 <input class="inpt-btn" type="button" value="Enviar" (click)="entradaTienda('modify')">

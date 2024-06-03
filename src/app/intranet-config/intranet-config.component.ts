@@ -152,10 +152,11 @@ export class IntranetConfigComponent implements OnInit {
           alert('Por favor, introduce el ID de la tienda para borrar.');
           return;
         }
-        this.servicioService.borrarTienda(tienda).subscribe({
+        this.servicioService.borrarTienda(tienda.id_tienda).subscribe({
           next: (response) => {
             alert('Tienda borrada con éxito');
             this.newtiendaForm.reset();
+            this.accionTienda = '';
           },
           error: (error) => {
             console.error(error);
