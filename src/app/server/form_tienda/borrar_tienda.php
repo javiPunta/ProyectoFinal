@@ -31,7 +31,17 @@ try {
     // Iniciar una transacción
     $mbd->beginTransaction();
 
-    // Preparar la sentencia SQL para eliminar la tienda
+    // Eliminar referencias en la tabla user_tienda
+    $deleteUserTienda = $mbd->prepare("DELETE FROM user_tienda WHERE id_tienda = :id_tienda");
+    $deleteUserTienda->bindParam(':id_tienda', $id_tienda, PDO::PARAM_INT);
+    $deleteUserTienda->execute();
+
+    // Eliminar referencias en la tabla tickets
+    $deleteTickets = $mbd->prepare("DELETE FROM tickets WHERE id_tienda = :id_tienda");
+    $deleteTickets->bindParam(':id_tienda', $id_tienda, PDO::PARAM_INT);
+    $deleteTickets->execute();
+
+    // Ahora eliminar la tienda
     $sentencia = $mbd->prepare("DELETE FROM tienda WHERE id_tienda = :id_tienda");
     $sentencia->bindParam(':id_tienda', $id_tienda, PDO::PARAM_INT);
     $sentencia->execute();
@@ -45,13 +55,25 @@ try {
     $mbd->rollBack();
     error_log("Error al borrar tienda: " . $e->getMessage());
 
-    http_response_code(500);
-    echo json_encode([
-        'error' => [
-            'msg' => 'Error al borrar la tienda',
-            'code' => $e->getCode()
-        ]
-    ]);
+    // Manejar errores específicos de integridad referencial
+    if ($e->getCode() == 23000) {
+        http_response_code(400);
+        echo json_encode([
+            'error' => [
+                'msg' => 'No se puede borrar la tienda debido a restricciones de integridad referencial. Por favor, asegúrese de que no haya referencias a esta tienda en otras tablas.',
+                'code' => $e->getCode()
+            ]
+        ]);
+    } else {
+        http_response_code(500);
+        echo json_encode([
+            'error' => [
+                'msg' => 'Error al borrar la tienda',
+                'code' => $e->getCode(),
+                'details' => $e->getMessage()
+            ]
+        ]);
+    }
 } finally {
     // Cerrar la conexión
     $mbd = null;

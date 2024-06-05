@@ -196,7 +196,12 @@ export class PrincipalComponent implements OnInit {
 
   goRanking(event: Event) {
     event.preventDefault();
+    if (this.session) {
     this.router.navigate(['/ranking']);
+    
+  } else {
+    this.router.navigate(['/login'], { queryParams: { redirect: 'ranking' } });
+  }
   }
 
   irEditarPerfil() {

@@ -5,6 +5,9 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *");
 
+// Incluir funciones de validación
+include_once '../validaciones/val_all.php';
+
 // Lee el JSON recibido en la solicitud
 $json = file_get_contents('php://input');
 $params = json_decode($json);
@@ -16,10 +19,27 @@ if (!$params || !isset($params->nombre_user)) {
 }
 
 // Datos para la actualización
-$nombre_user = $params->nombre_user;
+$nombre_user = trim($params->nombre_user);
 $nombre_compl_user = isset($params->nombre_compl_user) ? trim($params->nombre_compl_user) : null;
 $contrasenia = isset($params->contrasenia) ? trim($params->contrasenia) : null;
 $email = isset($params->email) ? trim($params->email) : null;
+
+// Validar los datos
+$errores = [];
+if ($nombre_compl_user !== null && !validarNombreCompleto($nombre_compl_user)) {
+    $errores[] = "El nombre completo es inválido.";
+}
+if ($contrasenia !== null && !validarContrasenia($contrasenia)) {
+    $errores[] = "La contraseña es inválida.";
+}
+if ($email !== null && !validarEmail($email)) {
+    $errores[] = "El correo electrónico es inválido.";
+}
+
+if (count($errores) > 0) {
+    echo json_encode(['error' => $errores]);
+    exit;
+}
 
 try {
     // Conexión a la base de datos

@@ -86,7 +86,7 @@ try {
     // Confirmar transacción
     $mbd->commit();
 
-    echo json_encode(['msg' => 'User añadido']);
+    echo json_encode(['msg' => 'Usuario añadido']);
 } catch (PDOException $e) {
     // Revertir transacción en caso de error
     $mbd->rollBack();

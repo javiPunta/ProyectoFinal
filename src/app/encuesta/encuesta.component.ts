@@ -52,13 +52,13 @@ export class EncuestaComponent implements OnInit {
     // Inicializar el formulario de encuesta
     this.encuestaForm = this.fb.group({
       nombre_user: [usuarioValue], // Establece el valor inicial con `usuarioValue`
-      e1: [''],
-      e2: [''],
-      e3: [''],
-      e4: [''],
-      e5: [''],
-      e6: [''],
-      e7: ['']
+      e1: ['', Validators.required],
+      e2: ['', Validators.required],
+      e3: ['', Validators.required],
+      e4: ['', Validators.required],
+      e5: ['', Validators.required],
+      e6: ['', Validators.required],
+      e7: ['', Validators.required]
     });
 
     // Solicitar el número de ticket al cargar la página
@@ -157,10 +157,12 @@ export class EncuestaComponent implements OnInit {
         }
       });
     } else {
-      // Si el formulario no es válido, puedes manejar esa situación aquí.
-      this.message = 'Por favor corrige los errores en el formulario.';
-      this.clasec = 'text-danger';
-      console.error('El formulario no es válido');
+      // Si el formulario no es válido, mostrar mensaje de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor, contesta todas las preguntas antes de enviar la encuesta.'
+      });
     }
   }
 

@@ -79,7 +79,7 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar√
                                  <div class="col-md-4">
                                     <div class="text-bg">
                                        <h1 class="hh1">Game </h1>
-                                       <a href="." (click)="goSnake($event)">Juega ahora</a>
+                                       <a *ngIf="session" class="read_more" href="." (click)="goSnake($event)">Juega ahora</a>
                                     </div>
                                  </div>
                                  <div class="col-md-8">
@@ -98,7 +98,7 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar√
                                  <div class="col-md-4">
                                     <div class="text-bg">
                                        <h1 class="hh1">Tickets </h1>
-                                       <a href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
+                                       <a *ngIf="session" class="read_more" href="." (click)="goEncuesta($event)">Haz tu encuesta ahora</a>
                                     </div>
                                  </div>
                                  <div class="col-md-8">
@@ -116,8 +116,8 @@ la clase CSS 'blur' al elemento <div>. Si mostrarFooter es false, no se aplicar√
                               <div class="row d_flex">
                                  <div class="col-md-4">
                                     <div class="text-bg">
-                                       <h1 class="hh1">Premios </h1>
-                                       <a href="." (click)="goRanking($event)">Ver Premios</a>
+                                       <h1 class="hh1">Tickets </h1>
+                                       <a *ngIf="session" class="read_more" href="." (click)="goRanking($event)">Ver Ranking</a>
                                     </div>
                                  </div>
                                  <div class="col-md-8">

@@ -127,6 +127,14 @@ select {
     }
   }
 }
+.message-box {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
 
 // Estilos adicionales para el botón "Volver Atrás"
 .styled-button {

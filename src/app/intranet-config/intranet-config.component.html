@@ -11,38 +11,56 @@
       <div class="gradient-container">
         <div class="contact-form">
           <div *ngIf="seleccion === 'usuario'">
+            <div class="message-box">
+              Para editar o borrar el usuario, necesitas poner el nombre de usuario y al menos un campo más.
+            </div>
             <form [formGroup]="newusuarioForm">
               <br><br><br>
               <label for="nombre_user">Nombre Usuario:</label>
               <input class="inpt" id="nombre_user" formControlName="nombre_user" type="text" placeholder="50 caracteres máximo. *">
+              <div *ngIf="newusuarioForm.controls['nombre_user'].invalid && (newusuarioForm.controls['nombre_user'].dirty || newusuarioForm.controls['nombre_user'].touched)">
+                <small class="text-danger">El nombre de usuario es requerido.</small>
+              </div>
               <br><br>
               <label for="nombre_compl_user">Nombre completo:</label>
               <input class="inpt" id="nombre_compl_user" formControlName="nombre_compl_user" type="text" placeholder="60 caracteres máximo.">
               <br><br>
               <label for="email">Correo electrónico:</label>
               <input class="inpt" id="email" formControlName="email" type="text" placeholder="60 caracteres máximo. *">
+              <div *ngIf="newusuarioForm.controls['email'].invalid && (newusuarioForm.controls['email'].dirty || newusuarioForm.controls['email'].touched)">
+                <small class="text-danger">El correo electrónico es requerido y debe ser válido.</small>
+              </div>
               <br><br>
               <label for="contrasenia">Contraseña:</label>
               <input class="inpt" id="contrasenia" formControlName="contrasenia" type="password" placeholder="********">
               <br><br><br>
               <input class="inpt-btn" type="button" value="Añadir" (click)="entradaUsuario('add')">
-              <input class="inpt-btn" type="button" value="Editar" (click)="mostrarCamposEditarTienda()">
+              <input class="inpt-btn" type="button" value="Editar" (click)="entradaUsuario('modify')">
+              <input class="inpt-btn" type="button" value="Eliminar" (click)="entradaUsuario('delete')">
               <button (click)="goHome()" style="margin-bottom: 30px;">Ir a tabla</button>
             </form>
           </div>
           <div *ngIf="seleccion === 'tienda'">
+            <div class="message-box">
+              Para editar o borrar la tienda, necesitas poner el ID de la tienda y al menos un campo más. El usuario debe rellenar todo el formulario para poder añadir tienda.
+            </div>
             <form [formGroup]="newtiendaForm">
-              <!-- Campo visible solo para la modificación -->
               <div *ngIf="accionTienda === 'edit' || accionTienda === 'modify' || accionTienda === 'delete'">
                 <label for="id_tienda">ID Tienda:</label>
                 <input class="inpt" id="id_tienda" formControlName="id_tienda" type="text" placeholder="ID Tienda">
                 <br><br>
               </div>
               <label for="nombre_tienda">Nombre:</label>
-              <input class="inpt" id="nombre_tienda" formControlName="nombre_tienda" type="text" placeholder="4 caracteres máximo.">
+              <input class="inpt" id="nombre_tienda" formControlName="nombre_tienda" type="text" placeholder="Nombre de la tienda. *">
+              <div *ngIf="newtiendaForm.controls['nombre_tienda'].invalid && (newtiendaForm.controls['nombre_tienda'].dirty || newtiendaForm.controls['nombre_tienda'].touched)">
+                <small class="text-danger">El nombre de la tienda es requerido.</small>
+              </div>
               <br><br>
               <label for="telefono">Teléfono:</label>
-              <input class="inpt" id="telefono" formControlName="telefono" type="text" placeholder="20 caracteres máximo. *">
+              <input class="inpt" id="telefono" formControlName="telefono" type="text" placeholder="Teléfono de la tienda. *">
+              <div *ngIf="newtiendaForm.controls['telefono'].invalid && (newtiendaForm.controls['telefono'].dirty || newtiendaForm.controls['telefono'].touched)">
+                <small class="text-danger">El teléfono es requerido.</small>
+              </div>
               <br><br>
               <div *ngIf="accionTienda !== 'edit'">
                 <input class="inpt-btn" type="button" value="Añadir" (click)="entradaTienda('add')">
@@ -50,8 +68,9 @@
                 <button (click)="goHome()" style="margin-bottom: 30px;">Ir a tabla</button>
               </div>
               <div *ngIf="accionTienda === 'edit'">
-                <input class="inpt-btn" type="button" value="Enviar" (click)="entradaTienda('modify')">
+                <input class="inpt-btn" type="button" value="Modificar" (click)="entradaTienda('modify')">
                 <input class="inpt-btn" type="button" value="Eliminar" (click)="entradaTienda('delete')">
+                <input class="inpt-btn" type="button" value="Cancelar" (click)="cancelarAccion()">
               </div>
             </form>
           </div>

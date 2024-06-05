@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../model/usuario';
-import { Tienda } from '../model/tienda';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { ServicioService } from '../servicio.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-intranet-config',
@@ -16,11 +14,6 @@ export class IntranetConfigComponent implements OnInit {
   newusuarioForm!: FormGroup;
   newtiendaForm!: FormGroup;
   message: string = '';
-  clasec: string = '';
-  clases: string = 'text-info';
-  resp: any;
-  actuales$!: Observable<Usuario[]>;
-  actuales2$!: Observable<Tienda[]>;
   accionTienda: string = '';
 
   constructor(
@@ -32,11 +25,11 @@ export class IntranetConfigComponent implements OnInit {
   ngOnInit(): void {
     this.newusuarioForm = this.fb.group({
       nombre_user: ['', Validators.required],
-      nombre_compl_user: [''],
-      contrasenia: [''],
-      email: ['', Validators.email]
+      nombre_compl_user: ['', Validators.required],
+      contrasenia: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     });
-    
+
     this.newtiendaForm = this.fb.group({
       id_tienda: [null],
       nombre_tienda: ['', Validators.required],
@@ -46,71 +39,62 @@ export class IntranetConfigComponent implements OnInit {
 
   entradaUsuario(accion: string) {
     const usuario = this.newusuarioForm.value;
-    const camposModificados: any = {};
-
-    Object.keys(usuario).forEach(key => {
-      if (usuario[key] !== '') {
-        camposModificados[key] = usuario[key];
-      }
-    });
 
     switch (accion) {
       case 'add':
         if (this.newusuarioForm.invalid) {
-          this.message = 'Por favor corrige los errores';
-          this.clasec = 'text-danger';
+          Swal.fire('Error', 'Por favor, rellena todos los campos requeridos.', 'error');
           return;
         }
         this.servicioService.getDatosRegistro(usuario).subscribe({
           next: (resp) => {
-            alert('Usuario creado exitosamente!');
-            this.newusuarioForm.reset();
+            if (resp.error) {
+              Swal.fire('Error', resp.error.join(', '), 'error');
+            } else {
+              Swal.fire('Éxito', 'Usuario creado exitosamente', 'success');
+              this.newusuarioForm.reset();
+            }
           },
           error: (err) => {
             console.error(err);
-          },
-          complete: () => this.actuales$ = this.servicioService.getDatosUsuario()
-        });
-        break;
-      case 'delete':
-        if (!usuario.nombre_user) {
-          alert('Por favor, introduce un nombre de usuario para borrar.');
-          return;
-        }
-        this.servicioService.borrarUsuario(usuario).subscribe({
-          next: (response) => {
-            alert('Usuario borrado con éxito');
-            this.newusuarioForm.reset();
-          },
-          error: (error) => {
-            console.error(error);
+            Swal.fire('Error', 'Ocurrió un error al crear el usuario', 'error');
           }
         });
         break;
       case 'modify':
-        if (Object.keys(camposModificados).length > 0) {
-          this.servicioService.modificarUsuario({
-            nombre_user: usuario.nombre_user,
-            camposModificados
-          }).subscribe({
-            next: (response) => {
-              alert('Usuario modificado con éxito');
-              this.newusuarioForm.reset();
-              this.actuales$ = this.servicioService.getDatosUsuario();
-            },
-            error: (error) => {
-              this.message = 'Error al modificar el usuario.';
-              this.clasec = 'text-danger';
-              console.error(error);
-            }
-          });
-        } else {
-          this.message = 'No se ha modificado ningún campo.';
-          this.clasec = 'text-warning';
+        if (!usuario.nombre_user || (!usuario.nombre_compl_user && !usuario.contrasenia && !usuario.email)) {
+          Swal.fire('Error', 'Debes rellenar el nombre de usuario y al menos uno de los campos adicionales: Nombre completo, Correo electrónico o Contraseña.', 'error');
+          return;
         }
+        this.servicioService.modificarUsuario(usuario).subscribe({
+          next: (response) => {
+            Swal.fire('Éxito', 'Usuario modificado con éxito', 'success');
+            this.newusuarioForm.reset();
+          },
+          error: (error) => {
+            console.error(error);
+            Swal.fire('Error', 'Ocurrió un error al modificar el usuario', 'error');
+          }
+        });
+        break;
+      case 'delete':
+        if (!usuario.nombre_user) {
+          Swal.fire('Error', 'Por favor, introduce el nombre de usuario para borrar.', 'error');
+          return;
+        }
+        this.servicioService.borrarUsuario(usuario).subscribe({
+          next: (response) => {
+            Swal.fire('Éxito', 'Usuario borrado con éxito', 'success');
+            this.newusuarioForm.reset();
+          },
+          error: (error) => {
+            console.error(error);
+            Swal.fire('Error', 'Ocurrió un error al borrar el usuario', 'error');
+          }
+        });
         break;
       default:
-        alert('Acción no reconocida');
+        Swal.fire('Error', 'Acción no reconocida', 'error');
     }
   }
 
@@ -120,76 +104,66 @@ export class IntranetConfigComponent implements OnInit {
 
   entradaTienda(accion: string) {
     const tienda = this.newtiendaForm.value;
-    const camposModificados: any = {};
-
-    Object.keys(tienda).forEach(key => {
-      if (tienda[key] !== '') {
-        camposModificados[key] = tienda[key];
-      }
-    });
 
     switch (accion) {
       case 'add':
         if (this.newtiendaForm.invalid) {
-          this.message = 'Todos los campos requeridos deben ser llenados correctamente.';
-          this.clasec = 'text-danger';
+          Swal.fire('Error', 'Todos los campos requeridos deben ser llenados correctamente.', 'error');
           return;
         }
         this.servicioService.getDatosRegistroTienda(tienda).subscribe({
           next: (resp) => {
-            alert('Tienda añadida exitosamente!');
+            Swal.fire('Éxito', 'Tienda añadida exitosamente', 'success');
             this.newtiendaForm.reset();
           },
           error: (err) => {
             console.error(err);
-            this.message = 'Error al añadir la tienda.';
-            this.clasec = 'text-danger';
+            Swal.fire('Error', 'Ocurrió un error al añadir la tienda', 'error');
           }
         });
         break;
       case 'delete':
         if (!tienda.id_tienda) {
-          alert('Por favor, introduce el ID de la tienda para borrar.');
+          Swal.fire('Error', 'Por favor, introduce el ID de la tienda para borrar.', 'error');
           return;
         }
         this.servicioService.borrarTienda(tienda.id_tienda).subscribe({
           next: (response) => {
-            alert('Tienda borrada con éxito');
+            Swal.fire('Éxito', 'Tienda borrada con éxito', 'success');
             this.newtiendaForm.reset();
             this.accionTienda = '';
           },
           error: (error) => {
             console.error(error);
-            this.message = 'Error al borrar la tienda.';
-            this.clasec = 'text-danger';
+            Swal.fire('Error', 'Ocurrió un error al borrar la tienda', 'error');
           }
         });
         break;
       case 'modify':
-        if (this.newtiendaForm.invalid || !tienda.id_tienda) {
-          this.message = 'Todos los campos requeridos deben ser llenados correctamente.';
-          this.clasec = 'text-danger';
+        if (!tienda.id_tienda || (!tienda.nombre_tienda && !tienda.telefono)) {
+          Swal.fire('Error', 'Debes rellenar el ID y al menos uno de los campos: Nombre o Teléfono.', 'error');
           return;
         }
-        this.servicioService.modificarTienda({
-          id_tienda: tienda.id_tienda,
-          ...camposModificados
-        }).subscribe({
+        this.servicioService.modificarTienda(tienda).subscribe({
           next: (response) => {
-            alert('Tienda modificada con éxito');
+            Swal.fire('Éxito', 'Tienda modificada con éxito', 'success');
             this.newtiendaForm.reset();
             this.accionTienda = '';
           },
           error: (error) => {
             console.error(error);
-            this.message = 'Error al modificar la tienda.';
-            this.clasec = 'text-danger';
+            Swal.fire('Error', 'Ocurrió un error al modificar la tienda', 'error');
           }
         });
         break;
       default:
-        alert('Acción no reconocida');
+        Swal.fire('Error', 'Acción no reconocida', 'error');
     }
+  }
+
+  cancelarAccion() {
+    this.accionTienda = '';
+    this.newtiendaForm.reset();
   }
 
   goHome() {

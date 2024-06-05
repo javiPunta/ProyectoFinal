@@ -1,4 +1,3 @@
-<!-- login.component.html -->
 <div class="cuerpo-form">
   <div class="contact-wrapper">
     <div class="gradient-container">
@@ -19,11 +18,15 @@
           <div id="espacioB">
             <button type="submit" name="boton" value="sesion" id="espacio1">Iniciar Sesión</button>
             <button (click)="goBack()">Registrarse</button>
+            
           </div>
         </form>
+        
       </div>
+      
     </div>
+     <!-- Botón para volver atrás -->
+  <button (click)="goHome()" name="boton" value="volver" class="back-button">Volver Atrás</button>
   </div>
-  <!-- Botón para volver atrás -->
-  <button (click)="goHome()" name="boton" value="volver" id="espacio">Volver Atras</button>
+ 
 </div>

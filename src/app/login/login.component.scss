@@ -1,10 +1,18 @@
-// login.component.scss
-
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
 
-// Paleta de colores
+// Variables de colores (importadas de consulta.component.scss)
+$color-fondo-encuesta: #1a1919; // Fondo oscuro principal
+$color-acento-primario: #21d4fd; // Azul brillante, usado para acentos y botones
+$color-acento-secundario: #b721ff; // Púrpura, usado para hover y otros acentos
+$color-texto-encuesta: #ffffff; // Texto blanco para legibilidad sobre fondos oscuros
+$color-boton-encuesta: #21d4fd; // Color principal de los botones
+$color-boton-hover: #b721ff; // Color de los botones al pasar el cursor
+$color-fondo-boton: #ffffff; // Fondo blanco para botones alternativos
+$color-texto-boton: #21d4fd; // Texto azul brillante para botones
+$color-borde-boton: #21d4fd; // Borde azul brillante para botones
+$lila: #5555ff; // Color lila utilizado para botones
+
 $azul: #2C74CE;
-$lila: #5555ffff;
 $blanco: #fff;
 $negro: #000000;
 $negro-claro: #222;
@@ -82,22 +90,23 @@ $gris-claro: #ccc;
     }
   }
 
-  #espacio {
+  .back-button {
     display: flex;
     position: absolute;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     font-size: 1.2em;
     padding: 0.5em 1em;
-    background-color: transparent;
-    color: $blanco;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    transition: border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    background-color: $color-boton-encuesta; // Color principal de los botones de la encuesta
+    color: $color-texto-encuesta; // Texto blanco
+    border-radius: 20px; // Bordes redondeados
+    border: 2px solid $color-boton-encuesta; // Mismo color de borde
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
     &:hover {
-      border-color: $lila;
-      color: $azul;
+      background-color: $color-boton-hover; // Color al pasar el cursor
+      color: $color-texto-encuesta; // Mantener texto blanco
+      border-color: $color-boton-hover; // Cambiar borde al pasar el cursor
     }
   }
 
